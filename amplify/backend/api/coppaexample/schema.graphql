@@ -1,0 +1,70 @@
+type S3Object {
+  bucket: String!
+  region: String!
+  key: String!
+}
+
+type MediaProperty {
+  size: Int # file size
+  height: Int # media (image/video) height
+  width: Int # media (image/video) width
+  duration: Int # media (audio/video) seconds
+}
+
+type Media {
+  media: S3Object # s3 link for image, audio or video
+  property: MediaProperty
+}
+
+# Requires the following resolver changes:
+# ## Automatically set the owner
+# $util.qr($context.args.input.put("owner", $context.identity.username))
+type User
+  @model
+  @key(fields: ["owner"])
+  @auth(
+    rules: [
+      # {allow: owner, ownerField: "owner", operations: [create, update, delete, read]},
+      { allow: owner, ownerField: "owner", identityClaim: "cognito:username" }
+    ]
+  ) {
+  owner: String!
+  username: String! @auth(rules: [{ allow: private, provider: iam, operations: [read] }])
+  avatar: Media @auth(rules: [{ allow: private, provider: iam, operations: [read] }])
+  #todos: [Todo] @connection(keyName: "ByOwner", fields: ["owner"])
+}
+
+enum Privacy {
+  private
+  public
+}
+
+type Todo
+  @model
+  @key(
+    name: "ByPrivacy"
+    fields: ["privacy", "createdAt"]
+    queryField: "todosByPrivacy"
+  )
+  @key(
+    name: "ByOwner"
+    fields: ["owner", "createdAt"]
+    queryField: "todosByOwner"
+  )
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "owner", identityClaim: "cognito:username" }
+      # All unauthenticatd read access.
+      { allow: public, provider: iam, operations: [read] }
+      # All authenticated read access.
+      { allow: private, provider: iam, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  privacy: Privacy!
+  createdAt: AWSDateTime!
+  owner: String! @auth(rules: [{ allow: owner, ownerField: "owner", identityClaim: "cognito:username" }])
+  creator: User! @connection(fields: ["owner"])
+  name: String!
+  description: String
+}
