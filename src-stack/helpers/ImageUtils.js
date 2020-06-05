@@ -1,6 +1,7 @@
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
-import * as ImagePicker from "expo-image-picker";
+import * as ImageUtils from "expo-image-picker";
+import * as ImageManipulator from "expo-image-manipulator";
 
 //
 // from: https://github.com/expo/image-upload-example/blob/master/frontend/App.js#L109
@@ -53,7 +54,7 @@ async function pickImage() {
     }
   }
 
-  let pickerResult = await ImagePicker.launchImageLibraryAsync({
+  let pickerResult = await ImageUtils.launchImageLibraryAsync({
     allowsEditing: true,
     aspect: [4, 3],
     base64: false,
@@ -61,8 +62,8 @@ async function pickImage() {
   });
 
   if (pickerResult && !pickerResult.cancelled) {
-    //console.log(pickerResult);
-    let formData = uriFormData(pickerResult.uri);
+    //let formData = uriFormData(pickerResult.uri);
+    console.log(pickerResult);
     return pickerResult.uri;
   }
 
@@ -85,7 +86,7 @@ async function takePhoto() {
     }
   }
 
-  let pickerResult = await ImagePicker.launchCameraAsync({
+  let pickerResult = await ImageUtils.launchCameraAsync({
     allowsEditing: true,
     aspect: [4, 3],
     base64: false,
@@ -101,4 +102,16 @@ async function takePhoto() {
   return undefined;
 }
 
-export { uriFormData, base64MimeType, pickImage, takePhoto };
+async function resizeImage(uri, width) {
+  const resized = await ImageManipulator.manipulateAsync(
+    uri,
+    [{ resize: { width } }],
+    { compress: 0.1, format: ImageManipulator.SaveFormat.JPEG, base64: true }
+  );
+
+  // return destructured object
+  //return {uri: resized.uri, width: resized.width, height: resized.height};
+  return resized;
+}
+
+export { uriFormData, base64MimeType, pickImage, takePhoto, resizeImage };

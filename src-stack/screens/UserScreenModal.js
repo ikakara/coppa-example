@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Button, View, Text, StyleSheet, TextInput, Image } from "react-native";
 
-import { API, graphqlOperation } from "aws-amplify";
 import uuid from "uuid/v4";
+import { API, graphqlOperation } from "aws-amplify";
 import { createUser, updateUser } from "../../src/graphql/mutations";
 
-import { ImagePicker, Auth, AwsUtils } from "../helpers";
-
+import { ImageUtils, Auth, AwsUtils } from "../helpers";
 import config from "../../aws-exports";
 
 const {
@@ -16,19 +15,21 @@ const {
 
 export default function UserScreenModal({ navigation, route }) {
   const [file, updateFile] = useState(undefined);
+  const [fileProperties, updateProperties] = useState(undefined);
   const [displayName, updateDisplayName] = useState("");
   const [avatarUrl, updateAvatarUrl] = useState("");
 
   async function saveUser(event) {
     event.preventDefault();
     if (!displayName) return alert("please enter a disaplay name");
+
     if (file && displayName) {
       //const { name: fileName, type: mimeType } = file;
-      let mimeType = ImagePicker.base64MimeType(file);
+      let mimeType = ImageUtils.base64MimeType(file);
       let fileName = mimeType.replace("/", "."); // image/jpg ==> image.jpg
 
       console.log(
-        "107 file " + fileName + " " + mimeType
+        "107 file " + fileName + " " + mimeType + " " + fileProperties
       );
 
       const key = `${uuid()}${fileName}`;
@@ -40,7 +41,7 @@ export default function UserScreenModal({ navigation, route }) {
 
       let avatarData = Object.assign({
         media: fileForUpload,
-        property: {},
+        property: fileProperties,
       });
 
       let createOrUpdate = createUser; //or updateUser;
@@ -56,7 +57,12 @@ export default function UserScreenModal({ navigation, route }) {
       console.log("line 56: " + owner + " " + displayName);
 
       try {
-        await AwsUtils.uploadImage(key, file, mimeType, AwsUtils.LEVEL_PROTECTED);
+        await AwsUtils.uploadImage(
+          key,
+          file,
+          mimeType,
+          AwsUtils.LEVEL_PROTECTED
+        );
 
         await API.graphql(
           graphqlOperation(createOrUpdate, { input: inputData })
@@ -73,9 +79,17 @@ export default function UserScreenModal({ navigation, route }) {
   }
 
   async function pickImage() {
-    let result = await ImagePicker.pickImage();
+    let result = await ImageUtils.pickImage();
     if (result) {
-      updateFile(result);
+      // lets compress the iamge
+      const { uri, width, height } = await ImageUtils.resizeImage(
+        result,
+        100 /* width */
+      );
+
+      console.log("line 90: " + width + " " + height + " " + uri);
+      updateFile(uri);
+      updateProperties({ width, height });
     }
   }
 
@@ -95,7 +109,11 @@ export default function UserScreenModal({ navigation, route }) {
       <Text style={{ fontSize: 30 }}>Update User Info</Text>
       <View style={{ flexDirection: "row" }}>
         {file && (
-          <Image source={{ uri: file }} resizeMode="contain" style={{ width: 200, height: 200 }} />
+          <Image
+            source={{ uri: file }}
+            resizeMode="contain"
+            style={{ width: 200, height: 200 }}
+          />
         )}
         <Button onPress={pickImage} title="Select Avatar" />
       </View>
@@ -107,7 +125,7 @@ export default function UserScreenModal({ navigation, route }) {
       />
       <Image source={avatarUrl} style={{ width: 300 }} />
       <View style={{ flexDirection: "row" }}>
-        <Button onPress={saveUser} title="Update Info" color="#00cc00" />
+        <Button onPress={saveUser} title="Save" color="#00cc00" />
         <Button onPress={() => navigation.goBack()} title="Dismiss" />
       </View>
     </View>
