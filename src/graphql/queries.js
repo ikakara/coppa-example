@@ -19,21 +19,11 @@ export const listUsers = /* GraphQL */ `
       items {
         owner
         displayName
-        avatar {
-          media {
-            bucket
-            region
-            key
-          }
-          property {
-            size
-            height
-            width
-            duration
-          }
-        }
         createdAt
         updatedAt
+        todos {
+          nextToken
+        }
       }
       nextToken
     }
@@ -59,55 +49,67 @@ export const getUser = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      todos {
+        items {
+          owner
+          privacy
+          createdAt
+          name
+          description
+          editors
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;
 export const getTodo = /* GraphQL */ `
-  query GetTodo($id: ID!) {
-    getTodo(id: $id) {
-      id
+  query GetTodo($owner: String!, $privacy: Privacy!, $createdAt: AWSDateTime!) {
+    getTodo(owner: $owner, privacy: $privacy, createdAt: $createdAt) {
+      owner
       privacy
       createdAt
-      owner
       name
       description
+      editors
       updatedAt
       creator {
         owner
         displayName
-        avatar {
-          media {
-            bucket
-            region
-            key
-          }
-          property {
-            size
-            height
-            width
-            duration
-          }
-        }
         createdAt
         updatedAt
+        todos {
+          nextToken
+        }
       }
     }
   }
 `;
 export const listTodos = /* GraphQL */ `
   query ListTodos(
+    $owner: String
+    $privacyCreatedAt: ModelTodoPrimaryCompositeKeyConditionInput
     $filter: ModelTodoFilterInput
     $limit: Int
     $nextToken: String
+    $sortDirection: ModelSortDirection
   ) {
-    listTodos(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listTodos(
+      owner: $owner
+      privacyCreatedAt: $privacyCreatedAt
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
       items {
-        id
+        owner
         privacy
         createdAt
-        owner
         name
         description
+        editors
         updatedAt
         creator {
           owner
@@ -138,48 +140,12 @@ export const todosByPrivacy = /* GraphQL */ `
       nextToken: $nextToken
     ) {
       items {
-        id
+        owner
         privacy
         createdAt
-        owner
         name
         description
-        updatedAt
-        creator {
-          owner
-          displayName
-          createdAt
-          updatedAt
-        }
-      }
-      nextToken
-    }
-  }
-`;
-export const todosByOwner = /* GraphQL */ `
-  query TodosByOwner(
-    $owner: String
-    $createdAt: ModelStringKeyConditionInput
-    $sortDirection: ModelSortDirection
-    $filter: ModelTodoFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    todosByOwner(
-      owner: $owner
-      createdAt: $createdAt
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        privacy
-        createdAt
-        owner
-        name
-        description
+        editors
         updatedAt
         creator {
           owner

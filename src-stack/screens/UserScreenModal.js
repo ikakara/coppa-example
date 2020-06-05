@@ -65,7 +65,7 @@ export default function UserScreenModal({ navigation, route }) {
         console.log("successfully stored user data!");
       } catch (err) {
         console.log("error: ", err);
-        alert(err.errors);
+        //alert(err.errors);
       }
 
       navigation.goBack();

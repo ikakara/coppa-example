@@ -24,6 +24,18 @@ export const createUser = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      todos {
+        items {
+          owner
+          privacy
+          createdAt
+          name
+          description
+          editors
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -33,31 +45,21 @@ export const createTodo = /* GraphQL */ `
     $condition: ModelTodoConditionInput
   ) {
     createTodo(input: $input, condition: $condition) {
-      id
+      owner
       privacy
       createdAt
-      owner
       name
       description
+      editors
       updatedAt
       creator {
         owner
         displayName
-        avatar {
-          media {
-            bucket
-            region
-            key
-          }
-          property {
-            size
-            height
-            width
-            duration
-          }
-        }
         createdAt
         updatedAt
+        todos {
+          nextToken
+        }
       }
     }
   }
@@ -85,6 +87,18 @@ export const updateUser = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      todos {
+        items {
+          owner
+          privacy
+          createdAt
+          name
+          description
+          editors
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -111,6 +125,18 @@ export const deleteUser = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      todos {
+        items {
+          owner
+          privacy
+          createdAt
+          name
+          description
+          editors
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -120,31 +146,21 @@ export const updateTodo = /* GraphQL */ `
     $condition: ModelTodoConditionInput
   ) {
     updateTodo(input: $input, condition: $condition) {
-      id
+      owner
       privacy
       createdAt
-      owner
       name
       description
+      editors
       updatedAt
       creator {
         owner
         displayName
-        avatar {
-          media {
-            bucket
-            region
-            key
-          }
-          property {
-            size
-            height
-            width
-            duration
-          }
-        }
         createdAt
         updatedAt
+        todos {
+          nextToken
+        }
       }
     }
   }
@@ -155,31 +171,21 @@ export const deleteTodo = /* GraphQL */ `
     $condition: ModelTodoConditionInput
   ) {
     deleteTodo(input: $input, condition: $condition) {
-      id
+      owner
       privacy
       createdAt
-      owner
       name
       description
+      editors
       updatedAt
       creator {
         owner
         displayName
-        avatar {
-          media {
-            bucket
-            region
-            key
-          }
-          property {
-            size
-            height
-            width
-            duration
-          }
-        }
         createdAt
         updatedAt
+        todos {
+          nextToken
+        }
       }
     }
   }

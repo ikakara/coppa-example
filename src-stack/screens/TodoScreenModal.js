@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Button, View, Text, StyleSheet, TextInput } from "react-native";
+import { Picker } from "@react-native-community/picker";
 
-const blankForm = { id: "", name: "", description: "" };
+const blankForm = { id: "", name: "", description: "", privacy: "" };
 
 export default function TodoScreenModal({ navigation, route }) {
   const [formState, setFormState] = useState(blankForm);
@@ -31,6 +32,17 @@ export default function TodoScreenModal({ navigation, route }) {
         value={formState.description}
         placeholder="Description"
       />
+      <Picker
+        selectedValue={formState.privacy}
+        style={styles.input}
+        onValueChange={(itemValue, itemIndex) => setInput("privacy", itemValue)}
+      >
+        <Picker.Item label="Hidden" value="0" />
+        <Picker.Item label="Draft" value="1" />
+        <Picker.Item label="Private" value="2" />
+        <Picker.Item label="Pending Public Approval" value="3" />
+        <Picker.Item label="Public" value="4" />
+      </Picker>
       <View style={{ flexDirection: "row" }}>
         <Button onPress={addTodo} title="Create Todo" color="#00cc00" />
         <Button onPress={() => navigation.goBack()} title="Dismiss" />

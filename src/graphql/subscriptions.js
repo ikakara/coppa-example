@@ -21,6 +21,18 @@ export const onCreateUser = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      todos {
+        items {
+          owner
+          privacy
+          createdAt
+          name
+          description
+          editors
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -44,6 +56,18 @@ export const onUpdateUser = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      todos {
+        items {
+          owner
+          privacy
+          createdAt
+          name
+          description
+          editors
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -67,37 +91,39 @@ export const onDeleteUser = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      todos {
+        items {
+          owner
+          privacy
+          createdAt
+          name
+          description
+          editors
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;
 export const onCreateTodo = /* GraphQL */ `
   subscription OnCreateTodo {
     onCreateTodo {
-      id
+      owner
       privacy
       createdAt
-      owner
       name
       description
+      editors
       updatedAt
       creator {
         owner
         displayName
-        avatar {
-          media {
-            bucket
-            region
-            key
-          }
-          property {
-            size
-            height
-            width
-            duration
-          }
-        }
         createdAt
         updatedAt
+        todos {
+          nextToken
+        }
       }
     }
   }
@@ -105,31 +131,21 @@ export const onCreateTodo = /* GraphQL */ `
 export const onUpdateTodo = /* GraphQL */ `
   subscription OnUpdateTodo {
     onUpdateTodo {
-      id
+      owner
       privacy
       createdAt
-      owner
       name
       description
+      editors
       updatedAt
       creator {
         owner
         displayName
-        avatar {
-          media {
-            bucket
-            region
-            key
-          }
-          property {
-            size
-            height
-            width
-            duration
-          }
-        }
         createdAt
         updatedAt
+        todos {
+          nextToken
+        }
       }
     }
   }
@@ -137,31 +153,21 @@ export const onUpdateTodo = /* GraphQL */ `
 export const onDeleteTodo = /* GraphQL */ `
   subscription OnDeleteTodo {
     onDeleteTodo {
-      id
+      owner
       privacy
       createdAt
-      owner
       name
       description
+      editors
       updatedAt
       creator {
         owner
         displayName
-        avatar {
-          media {
-            bucket
-            region
-            key
-          }
-          property {
-            size
-            height
-            width
-            duration
-          }
-        }
         createdAt
         updatedAt
+        todos {
+          nextToken
+        }
       }
     }
   }

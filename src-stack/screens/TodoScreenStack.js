@@ -65,7 +65,8 @@ export default function TodoScreenStack({ navigation }) {
 
   async function addTodo(formState) {
     try {
-      if (!formState.name || !formState.description) return;
+      if (!formState.name || !formState.description)
+        return alert("please enter a name and description");
       const todo = { ...formState };
       //dispatch({ type: "ADD_TODO", todo });
       //setTodos([...todos, todo]);
@@ -87,11 +88,13 @@ export default function TodoScreenStack({ navigation }) {
     return () => subscription.unsubscribe();
   }, []);
 
-  function Item({ name, description }) {
+  function Item({ name, description, privacy, creator }) {
     return (
       <View style={styles.item}>
         <Text style={styles.title}>{name}</Text>
         <Text style={styles.description}>{description}</Text>
+        <Text style={styles.privacy}>{privacy}</Text>
+        <Text style={styles.creator}>created by {creator.displayName}</Text>
       </View>
     );
   }
@@ -106,7 +109,12 @@ export default function TodoScreenStack({ navigation }) {
           <FlatList
             data={state.todos}
             renderItem={({ item }) => (
-              <Item name={item.name} description={item.description} />
+              <Item
+                name={item.name}
+                description={item.description}
+                privacy={item.privacy}
+                creator={item.creator}
+              />
             )}
             keyExtractor={(item) => item.id}
           />

@@ -35,14 +35,15 @@ type User
   owner: String! # cognitor:username
   displayName: String! # @auth(rules: [{ allow: private, provider: iam, operations: [read] }])
   avatar: Media # @auth(rules: [{ allow: private, provider: iam, operations: [read] }])
-  #todos: [Todo] @connection(keyName: "ByOwner", fields: ["owner"])
+  todos: [Todo] @connection(keyName: "ByOwner", fields: ["owner"])
 }
 
 enum Privacy {
-  draft     # only owner accessible
-  private   # friend accessible
-  pending   # pending public approval by Admins
-  public    # public
+  hidden # only owner accessible
+  draft # owner mutable, editors readable
+  private # editor accessible
+  pending # curators and admins
+  public # public accessible
 }
 
 # Requires the following resolver changes: createTodo
@@ -50,16 +51,13 @@ enum Privacy {
 # $util.qr($context.args.input.put("owner", $context.identity.username))
 type Todo
   @model
+  @key(fields: ["owner", "privacy", "createdAt"])
   @key(
     name: "ByPrivacy"
     fields: ["privacy", "createdAt"]
     queryField: "todosByPrivacy"
   )
-  @key(
-    name: "ByOwner"
-    fields: ["owner", "createdAt"]
-    queryField: "todosByOwner"
-  )
+  @key(name: "ByOwner", fields: ["owner", "createdAt"])
   @auth(
     rules: [
       # read only access to app users, and mutations for owners
@@ -70,11 +68,11 @@ type Todo
       { allow: public, provider: iam, operations: [read] }
     ]
   ) {
-  id: ID!
+  owner: String!
   privacy: Privacy!
   createdAt: AWSDateTime!
-  owner: String! # @auth(rules: [{ allow: owner, ownerField: "owner", identityClaim: "cognito:username" }])
-  creator: User! @connection(fields: ["owner"])
   name: String!
   description: String
+  creator: User @connection(fields: ["owner"])
+  editors: [String]
 }

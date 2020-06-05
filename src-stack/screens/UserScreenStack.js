@@ -6,7 +6,6 @@ import {
   StyleSheet,
   ScrollView,
   FlatList,
-  Image,
 } from "react-native";
 
 import { API, graphqlOperation } from "aws-amplify";
