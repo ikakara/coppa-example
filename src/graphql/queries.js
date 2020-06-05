@@ -19,9 +19,68 @@ export const listUsers = /* GraphQL */ `
       items {
         owner
         displayName
+        avatar {
+          media {
+            bucket
+            region
+            key
+          }
+          property {
+            size
+            height
+            width
+            duration
+          }
+        }
         createdAt
         updatedAt
         todos {
+          items {
+            owner
+            privacy
+            createdAt
+            name
+            description
+            editors
+            updatedAt
+            creator {
+              owner
+              displayName
+              avatar {
+                media {
+                  bucket
+                  region
+                  key
+                }
+                property {
+                  size
+                  height
+                  width
+                  duration
+                }
+              }
+              createdAt
+              updatedAt
+              todos {
+                items {
+                  owner
+                  privacy
+                  createdAt
+                  name
+                  description
+                  editors
+                  updatedAt
+                  creator {
+                    owner
+                    displayName
+                    createdAt
+                    updatedAt
+                  }
+                }
+                nextToken
+              }
+            }
+          }
           nextToken
         }
       }
@@ -58,6 +117,46 @@ export const getUser = /* GraphQL */ `
           description
           editors
           updatedAt
+          creator {
+            owner
+            displayName
+            avatar {
+              media {
+                bucket
+                region
+                key
+              }
+              property {
+                size
+                height
+                width
+                duration
+              }
+            }
+            createdAt
+            updatedAt
+            todos {
+              items {
+                owner
+                privacy
+                createdAt
+                name
+                description
+                editors
+                updatedAt
+                creator {
+                  owner
+                  displayName
+                  createdAt
+                  updatedAt
+                  todos {
+                    nextToken
+                  }
+                }
+              }
+              nextToken
+            }
+          }
         }
         nextToken
       }
@@ -77,9 +176,68 @@ export const getTodo = /* GraphQL */ `
       creator {
         owner
         displayName
+        avatar {
+          media {
+            bucket
+            region
+            key
+          }
+          property {
+            size
+            height
+            width
+            duration
+          }
+        }
         createdAt
         updatedAt
         todos {
+          items {
+            owner
+            privacy
+            createdAt
+            name
+            description
+            editors
+            updatedAt
+            creator {
+              owner
+              displayName
+              avatar {
+                media {
+                  bucket
+                  region
+                  key
+                }
+                property {
+                  size
+                  height
+                  width
+                  duration
+                }
+              }
+              createdAt
+              updatedAt
+              todos {
+                items {
+                  owner
+                  privacy
+                  createdAt
+                  name
+                  description
+                  editors
+                  updatedAt
+                  creator {
+                    owner
+                    displayName
+                    createdAt
+                    updatedAt
+                  }
+                }
+                nextToken
+              }
+            }
+          }
           nextToken
         }
       }
@@ -114,8 +272,64 @@ export const listTodos = /* GraphQL */ `
         creator {
           owner
           displayName
+          avatar {
+            media {
+              bucket
+              region
+              key
+            }
+            property {
+              size
+              height
+              width
+              duration
+            }
+          }
           createdAt
           updatedAt
+          todos {
+            items {
+              owner
+              privacy
+              createdAt
+              name
+              description
+              editors
+              updatedAt
+              creator {
+                owner
+                displayName
+                avatar {
+                  media {
+                    bucket
+                    region
+                    key
+                  }
+                  property {
+                    size
+                    height
+                    width
+                    duration
+                  }
+                }
+                createdAt
+                updatedAt
+                todos {
+                  items {
+                    owner
+                    privacy
+                    createdAt
+                    name
+                    description
+                    editors
+                    updatedAt
+                  }
+                  nextToken
+                }
+              }
+            }
+            nextToken
+          }
         }
       }
       nextToken
@@ -150,8 +364,64 @@ export const todosByPrivacy = /* GraphQL */ `
         creator {
           owner
           displayName
+          avatar {
+            media {
+              bucket
+              region
+              key
+            }
+            property {
+              size
+              height
+              width
+              duration
+            }
+          }
           createdAt
           updatedAt
+          todos {
+            items {
+              owner
+              privacy
+              createdAt
+              name
+              description
+              editors
+              updatedAt
+              creator {
+                owner
+                displayName
+                avatar {
+                  media {
+                    bucket
+                    region
+                    key
+                  }
+                  property {
+                    size
+                    height
+                    width
+                    duration
+                  }
+                }
+                createdAt
+                updatedAt
+                todos {
+                  items {
+                    owner
+                    privacy
+                    createdAt
+                    name
+                    description
+                    editors
+                    updatedAt
+                  }
+                  nextToken
+                }
+              }
+            }
+            nextToken
+          }
         }
       }
       nextToken

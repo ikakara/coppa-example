@@ -14,7 +14,7 @@ import { API, graphqlOperation } from "aws-amplify";
 import { listUsers } from "../../src/graphql/queries";
 import { onCreateUser } from "../../src/graphql/subscriptions";
 
-import { AwsUtils, ListUtils } from "../helpers";
+import { AwsUtils, ListUtils, Debug } from "../helpers";
 import ProgressiveImage from "../components/ProgressiveImage";
 
 const preview = require("../../assets/images/icon.png");
@@ -30,14 +30,16 @@ function reducer(state, action) {
     case "ADD_USER":
       return {
         ...state,
-        users: ListUtils.addOrReplaceBy( // arr = [], predicate, getItem
+        users: ListUtils.addOrReplaceBy(
+          // arr = [], predicate, getItem
           state.users,
           { owner: action.user.owner }, // owner unique key
-          (elem) => ({ // getItem
+          (elem) => ({
+            // getItem
             ...elem,
-            ...action.user
+            ...action.user,
           })
-        )
+        ),
         //[action.user, ...state.users]
       };
     default:
@@ -73,9 +75,12 @@ export default function UserScreenStack({ navigation }) {
     try {
       let users = await API.graphql(graphqlOperation(listUsers));
       users = users.data.listUsers.items;
+
+      Debug.reportUser(Debug.REPORT_SERIOUS, users);
+
       dispatch({ type: "SET_USERS", users });
     } catch (err) {
-      console.log("error fetching users");
+      console.log(err);
     }
   }
 

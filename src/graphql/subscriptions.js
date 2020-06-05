@@ -30,6 +30,46 @@ export const onCreateUser = /* GraphQL */ `
           description
           editors
           updatedAt
+          creator {
+            owner
+            displayName
+            avatar {
+              media {
+                bucket
+                region
+                key
+              }
+              property {
+                size
+                height
+                width
+                duration
+              }
+            }
+            createdAt
+            updatedAt
+            todos {
+              items {
+                owner
+                privacy
+                createdAt
+                name
+                description
+                editors
+                updatedAt
+                creator {
+                  owner
+                  displayName
+                  createdAt
+                  updatedAt
+                  todos {
+                    nextToken
+                  }
+                }
+              }
+              nextToken
+            }
+          }
         }
         nextToken
       }
@@ -65,6 +105,46 @@ export const onUpdateUser = /* GraphQL */ `
           description
           editors
           updatedAt
+          creator {
+            owner
+            displayName
+            avatar {
+              media {
+                bucket
+                region
+                key
+              }
+              property {
+                size
+                height
+                width
+                duration
+              }
+            }
+            createdAt
+            updatedAt
+            todos {
+              items {
+                owner
+                privacy
+                createdAt
+                name
+                description
+                editors
+                updatedAt
+                creator {
+                  owner
+                  displayName
+                  createdAt
+                  updatedAt
+                  todos {
+                    nextToken
+                  }
+                }
+              }
+              nextToken
+            }
+          }
         }
         nextToken
       }
@@ -100,6 +180,46 @@ export const onDeleteUser = /* GraphQL */ `
           description
           editors
           updatedAt
+          creator {
+            owner
+            displayName
+            avatar {
+              media {
+                bucket
+                region
+                key
+              }
+              property {
+                size
+                height
+                width
+                duration
+              }
+            }
+            createdAt
+            updatedAt
+            todos {
+              items {
+                owner
+                privacy
+                createdAt
+                name
+                description
+                editors
+                updatedAt
+                creator {
+                  owner
+                  displayName
+                  createdAt
+                  updatedAt
+                  todos {
+                    nextToken
+                  }
+                }
+              }
+              nextToken
+            }
+          }
         }
         nextToken
       }
@@ -119,9 +239,68 @@ export const onCreateTodo = /* GraphQL */ `
       creator {
         owner
         displayName
+        avatar {
+          media {
+            bucket
+            region
+            key
+          }
+          property {
+            size
+            height
+            width
+            duration
+          }
+        }
         createdAt
         updatedAt
         todos {
+          items {
+            owner
+            privacy
+            createdAt
+            name
+            description
+            editors
+            updatedAt
+            creator {
+              owner
+              displayName
+              avatar {
+                media {
+                  bucket
+                  region
+                  key
+                }
+                property {
+                  size
+                  height
+                  width
+                  duration
+                }
+              }
+              createdAt
+              updatedAt
+              todos {
+                items {
+                  owner
+                  privacy
+                  createdAt
+                  name
+                  description
+                  editors
+                  updatedAt
+                  creator {
+                    owner
+                    displayName
+                    createdAt
+                    updatedAt
+                  }
+                }
+                nextToken
+              }
+            }
+          }
           nextToken
         }
       }
@@ -141,9 +320,68 @@ export const onUpdateTodo = /* GraphQL */ `
       creator {
         owner
         displayName
+        avatar {
+          media {
+            bucket
+            region
+            key
+          }
+          property {
+            size
+            height
+            width
+            duration
+          }
+        }
         createdAt
         updatedAt
         todos {
+          items {
+            owner
+            privacy
+            createdAt
+            name
+            description
+            editors
+            updatedAt
+            creator {
+              owner
+              displayName
+              avatar {
+                media {
+                  bucket
+                  region
+                  key
+                }
+                property {
+                  size
+                  height
+                  width
+                  duration
+                }
+              }
+              createdAt
+              updatedAt
+              todos {
+                items {
+                  owner
+                  privacy
+                  createdAt
+                  name
+                  description
+                  editors
+                  updatedAt
+                  creator {
+                    owner
+                    displayName
+                    createdAt
+                    updatedAt
+                  }
+                }
+                nextToken
+              }
+            }
+          }
           nextToken
         }
       }
@@ -163,9 +401,68 @@ export const onDeleteTodo = /* GraphQL */ `
       creator {
         owner
         displayName
+        avatar {
+          media {
+            bucket
+            region
+            key
+          }
+          property {
+            size
+            height
+            width
+            duration
+          }
+        }
         createdAt
         updatedAt
         todos {
+          items {
+            owner
+            privacy
+            createdAt
+            name
+            description
+            editors
+            updatedAt
+            creator {
+              owner
+              displayName
+              avatar {
+                media {
+                  bucket
+                  region
+                  key
+                }
+                property {
+                  size
+                  height
+                  width
+                  duration
+                }
+              }
+              createdAt
+              updatedAt
+              todos {
+                items {
+                  owner
+                  privacy
+                  createdAt
+                  name
+                  description
+                  editors
+                  updatedAt
+                  creator {
+                    owner
+                    displayName
+                    createdAt
+                    updatedAt
+                  }
+                }
+                nextToken
+              }
+            }
+          }
           nextToken
         }
       }
