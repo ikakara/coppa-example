@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, View, Text, StyleSheet, TextInput, Image } from "react-native";
 
-import { Storage, API, graphqlOperation } from "aws-amplify";
+import { API, graphqlOperation } from "aws-amplify";
 import uuid from "uuid/v4";
 import { createUser, updateUser } from "../../src/graphql/mutations";
 
@@ -16,19 +16,19 @@ const {
 
 export default function UserScreenModal({ navigation, route }) {
   const [file, updateFile] = useState(undefined);
-  const [username, updateUsername] = useState("");
+  const [displayName, updateDisplayName] = useState("");
   const [avatarUrl, updateAvatarUrl] = useState("");
 
   async function saveUser(event) {
     event.preventDefault();
-    if (!username) return alert("please enter a username");
-    if (file && username) {
+    if (!displayName) return alert("please enter a disaplay name");
+    if (file && displayName) {
       //const { name: fileName, type: mimeType } = file;
       let mimeType = ImagePicker.base64MimeType(file);
       let fileName = mimeType.replace("/", "."); // image/jpg ==> image.jpg
 
       console.log(
-        "107 file " + (file && true) + " " + fileName + " " + mimeType
+        "107 file " + fileName + " " + mimeType
       );
 
       const key = `${uuid()}${fileName}`;
@@ -51,21 +51,21 @@ export default function UserScreenModal({ navigation, route }) {
         createOrUpdate = updateUser;
       }
 
-      const inputData = { owner, username, avatar: avatarData };
+      const inputData = { owner, displayName, avatar: avatarData };
 
-      console.log(inputData);
+      console.log("line 56: " + owner + " " + displayName);
 
       try {
-        await Storage.put(key, file, {
-          contentType: mimeType,
-        });
+        await AwsUtils.uploadImage(key, file, mimeType, AwsUtils.LEVEL_PROTECTED);
+
         await API.graphql(
           graphqlOperation(createOrUpdate, { input: inputData })
         );
-        //updateUsername("");
+        //updateDisplayName("");
         console.log("successfully stored user data!");
       } catch (err) {
         console.log("error: ", err);
+        alert(err.errors);
       }
 
       navigation.goBack();
@@ -82,9 +82,9 @@ export default function UserScreenModal({ navigation, route }) {
   useEffect(() => {
     const user = Auth.userInfo();
     if (user) {
-      updateUsername(user.username);
+      updateDisplayName(user.displayName);
       if (user.avatar && user.avatar.media && user.avatar.media.key) {
-        let imageData = AwsUtils.fetchImage(user.avatar.media.key);
+        let imageData = AwsUtils.downloadImage(user.avatar.media.key);
         updateAvatarUrl(imageData);
       }
     }
@@ -95,15 +95,15 @@ export default function UserScreenModal({ navigation, route }) {
       <Text style={{ fontSize: 30 }}>Update User Info</Text>
       <View style={{ flexDirection: "row" }}>
         {file && (
-          <Image source={{ uri: file }} style={{ width: 200, height: 200 }} />
+          <Image source={{ uri: file }} resizeMode="contain" style={{ width: 200, height: 200 }} />
         )}
         <Button onPress={pickImage} title="Select Avatar" />
       </View>
       <TextInput
-        placeholder="Username"
+        placeholder="Display Name"
         style={styles.input}
-        value={username}
-        onChange={(e) => updateUsername(e.target.value)}
+        value={displayName || ""}
+        onChange={(e) => updateDisplayName(e.target.value)}
       />
       <Image source={avatarUrl} style={{ width: 300 }} />
       <View style={{ flexDirection: "row" }}>
@@ -116,7 +116,7 @@ export default function UserScreenModal({ navigation, route }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: "center", padding: 20 },
-  username: {
+  displayName: {
     fontSize: 24,
   },
   avatarurl: {

@@ -1,0 +1,21 @@
+{
+    "appName": "coppaexample",
+    "roleName": "pinpointLambdaRole8645a2b7",
+    "cloudformationPolicyName": "cloudformationPolicy8645a2b7",
+    "cloudWatchPolicyName": "cloudWatchPolicy8645a2b7",
+    "pinpointPolicyName": "pinpointPolicy8645a2b7",
+    "authPolicyName": "pinpoint_amplify_8645a2b7",
+    "unauthPolicyName": "pinpoint_amplify_8645a2b7",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    }
+}

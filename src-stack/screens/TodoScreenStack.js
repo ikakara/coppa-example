@@ -29,7 +29,6 @@ function reducer(state, action) {
 }
 
 export default function TodoScreenStack({ navigation }) {
-  //const [todos, setTodos] = useState([]);
   const [state, dispatch] = useReducer(reducer, initialState);
 
   React.useLayoutEffect(() => {

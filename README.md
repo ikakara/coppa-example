@@ -7,6 +7,7 @@
 Designing a COPPA compliant datastore using schema.graphql (and custom resolvers), Cognito (User Pools/Groups) and IAM Roles.
 
 * <https://aws.amazon.com/blogs/mobile/graphql-security-appsync-amplify/>
+* <https://docs.aws.amazon.com/appsync/latest/devguide/security.html>
 
 # Technology Stack
 
@@ -45,7 +46,7 @@ The main disadvantage to AWS Services are the costs.  DynamoDB (or DocumentDB) c
 
 # Setup Configuraton - when I have more time, I'll add more details
 
-* Sign-up for a free AWS Account (if don't already have one)
+* Sign-up for a free AWS Account (if you don't already have one)
 * branch and git the project
 * cd into project working directory
 * amplify init

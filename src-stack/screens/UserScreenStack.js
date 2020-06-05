@@ -6,13 +6,19 @@ import {
   StyleSheet,
   ScrollView,
   FlatList,
+  Image,
 } from "react-native";
 
 import { API, graphqlOperation } from "aws-amplify";
+//import { S3Image } from "aws-amplify-react-native";
+
 import { listUsers } from "../../src/graphql/queries";
 import { onCreateUser } from "../../src/graphql/subscriptions";
 
 import { AwsUtils } from "../helpers";
+import ProgressiveImage from "../components/ProgressiveImage";
+
+const preview = require("../../assets/images/icon.png");
 
 const initialState = {
   users: [],
@@ -65,6 +71,8 @@ export default function UserScreenStack({ navigation }) {
 
   useEffect(() => {
     fetchUsers();
+    console.log("line 87: " + state.users);
+
     const subscription = API.graphql(graphqlOperation(onCreateUser)).subscribe({
       next: async (userData) => {
         const { onCreateUser } = userData.value.data;
@@ -74,14 +82,43 @@ export default function UserScreenStack({ navigation }) {
     return () => subscription.unsubscribe();
   }, []);
 
-  function Item({ username, avatarurl }) {
-    let imageUrl = AwsUtils.fetchImage(avatarurl);
+  function Item({ displayName, avatarurl }) {
+    let uri = undefined;
+    if (avatarurl) {
+      uri = AwsUtils.downloadImage(
+        avatarurl,
+        AwsUtils.LEVEL_PROTECTED,
+        AwsUtils.MIN_EXPIRES
+      );
+      console.log(uri);
+    }
+
     return (
-      <View style={{ flexDirection: "row" }}>
-        <Image source={{ uri: imageUrl }} style={{ width: 200, height: 200 }} />
-        <Text style={styles.username}>{username}</Text>
+      <View style={styles.item}>
+        {uri != undefined && (
+          <ProgressiveImage
+            {...{ preview, uri }}
+            style={{ width: 50, height: 50 }}
+          />
+        )}
+        <Text style={styles.displayName}>{displayName}</Text>
+        <Text style={styles.avatarurl}>{avatarurl}</Text>
       </View>
     );
+
+    /*
+    return (
+      <View style={styles.item}>
+        <S3Image
+          imgkey={avatarurl}
+          level="private"
+          resizeMode="contain"
+          style={{ width: 200, height: 200 }}
+        />
+        <Text style={styles.displayName}>{displayName}</Text>
+        <Text style={styles.avatarurl}>{avatarurl}</Text>
+      </View>
+    ); */
   }
 
   if (state.users.length > 0) {
@@ -95,11 +132,11 @@ export default function UserScreenStack({ navigation }) {
             data={state.users}
             renderItem={({ item }) => (
               <Item
-                username={item.username}
-                avatarurl={item.avatar.media.key}
+                displayName={item.displayName}
+                avatarurl={item.avatar && item.avatar.media.key}
               />
             )}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item.owner}
           />
         </ScrollView>
       </View>
@@ -131,7 +168,7 @@ const styles = StyleSheet.create({
     padding: 20,
     marginVertical: 1,
   },
-  username: {
+  displayName: {
     fontSize: 24,
   },
   avatarurl: {

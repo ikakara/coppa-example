@@ -1,29 +1,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getUser = /* GraphQL */ `
-  query GetUser($owner: String!) {
-    getUser(owner: $owner) {
-      owner
-      username
-      avatar {
-        media {
-          bucket
-          region
-          key
-        }
-        property {
-          size
-          height
-          width
-          duration
-        }
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
 export const listUsers = /* GraphQL */ `
   query ListUsers(
     $owner: String
@@ -41,7 +18,7 @@ export const listUsers = /* GraphQL */ `
     ) {
       items {
         owner
-        username
+        displayName
         avatar {
           media {
             bucket
@@ -62,6 +39,29 @@ export const listUsers = /* GraphQL */ `
     }
   }
 `;
+export const getUser = /* GraphQL */ `
+  query GetUser($owner: String!) {
+    getUser(owner: $owner) {
+      owner
+      displayName
+      avatar {
+        media {
+          bucket
+          region
+          key
+        }
+        property {
+          size
+          height
+          width
+          duration
+        }
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const getTodo = /* GraphQL */ `
   query GetTodo($id: ID!) {
     getTodo(id: $id) {
@@ -69,9 +69,12 @@ export const getTodo = /* GraphQL */ `
       privacy
       createdAt
       owner
+      name
+      description
+      updatedAt
       creator {
         owner
-        username
+        displayName
         avatar {
           media {
             bucket
@@ -88,9 +91,6 @@ export const getTodo = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      name
-      description
-      updatedAt
     }
   }
 `;
@@ -106,15 +106,15 @@ export const listTodos = /* GraphQL */ `
         privacy
         createdAt
         owner
-        creator {
-          owner
-          username
-          createdAt
-          updatedAt
-        }
         name
         description
         updatedAt
+        creator {
+          owner
+          displayName
+          createdAt
+          updatedAt
+        }
       }
       nextToken
     }
@@ -142,15 +142,15 @@ export const todosByPrivacy = /* GraphQL */ `
         privacy
         createdAt
         owner
-        creator {
-          owner
-          username
-          createdAt
-          updatedAt
-        }
         name
         description
         updatedAt
+        creator {
+          owner
+          displayName
+          createdAt
+          updatedAt
+        }
       }
       nextToken
     }
@@ -178,15 +178,15 @@ export const todosByOwner = /* GraphQL */ `
         privacy
         createdAt
         owner
-        creator {
-          owner
-          username
-          createdAt
-          updatedAt
-        }
         name
         description
         updatedAt
+        creator {
+          owner
+          displayName
+          createdAt
+          updatedAt
+        }
       }
       nextToken
     }

@@ -33,5 +33,11 @@
 				}
 			}
 		}
+	},
+	"analytics": {
+		"coppaexample": {
+			"service": "Pinpoint",
+			"providerPlugin": "awscloudformation"
+		}
 	}
 }

@@ -16,29 +16,38 @@ type Media {
   property: MediaProperty
 }
 
-# Requires the following resolver changes:
+# Requires the following resolver changes: createUser
 # ## Automatically set the owner
 # $util.qr($context.args.input.put("owner", $context.identity.username))
 type User
-  @model
+  @model #(subscriptions: null)
   @key(fields: ["owner"])
   @auth(
     rules: [
+      # read only access to app users, and mutations for owners
+      { allow: owner, operations: [create, update, delete] }
+      { allow: private, provider: iam, operations: [read, update, delete] }
+      { allow: private, provider: userPools, operations: [read] }
       # {allow: owner, ownerField: "owner", operations: [create, update, delete, read]},
-      { allow: owner, ownerField: "owner", identityClaim: "cognito:username" }
+      # {allow: owner, ownerField: "owner", identityClaim: "cognito:username"}
     ]
   ) {
-  owner: String!
-  username: String! @auth(rules: [{ allow: private, provider: iam, operations: [read] }])
-  avatar: Media @auth(rules: [{ allow: private, provider: iam, operations: [read] }])
+  owner: String! # cognitor:username
+  displayName: String! # @auth(rules: [{ allow: private, provider: iam, operations: [read] }])
+  avatar: Media # @auth(rules: [{ allow: private, provider: iam, operations: [read] }])
   #todos: [Todo] @connection(keyName: "ByOwner", fields: ["owner"])
 }
 
 enum Privacy {
-  private
-  public
+  draft     # only owner accessible
+  private   # friend accessible
+  pending   # pending public approval by Admins
+  public    # public
 }
 
+# Requires the following resolver changes: createTodo
+# ## Automatically set the owner
+# $util.qr($context.args.input.put("owner", $context.identity.username))
 type Todo
   @model
   @key(
@@ -53,17 +62,18 @@ type Todo
   )
   @auth(
     rules: [
-      { allow: owner, ownerField: "owner", identityClaim: "cognito:username" }
+      # read only access to app users, and mutations for owners
+      { allow: owner, operations: [create, update, delete] }
+      { allow: private, provider: iam, operations: [read, update, delete] }
+      { allow: private, provider: userPools, operations: [read] }
       # All unauthenticatd read access.
       { allow: public, provider: iam, operations: [read] }
-      # All authenticated read access.
-      { allow: private, provider: iam, operations: [read] }
     ]
   ) {
   id: ID!
   privacy: Privacy!
   createdAt: AWSDateTime!
-  owner: String! @auth(rules: [{ allow: owner, ownerField: "owner", identityClaim: "cognito:username" }])
+  owner: String! # @auth(rules: [{ allow: owner, ownerField: "owner", identityClaim: "cognito:username" }])
   creator: User! @connection(fields: ["owner"])
   name: String!
   description: String

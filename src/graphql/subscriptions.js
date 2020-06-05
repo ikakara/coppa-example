@@ -2,10 +2,10 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreateUser = /* GraphQL */ `
-  subscription OnCreateUser($owner: String!) {
-    onCreateUser(owner: $owner) {
+  subscription OnCreateUser {
+    onCreateUser {
       owner
-      username
+      displayName
       avatar {
         media {
           bucket
@@ -25,10 +25,10 @@ export const onCreateUser = /* GraphQL */ `
   }
 `;
 export const onUpdateUser = /* GraphQL */ `
-  subscription OnUpdateUser($owner: String!) {
-    onUpdateUser(owner: $owner) {
+  subscription OnUpdateUser {
+    onUpdateUser {
       owner
-      username
+      displayName
       avatar {
         media {
           bucket
@@ -48,10 +48,10 @@ export const onUpdateUser = /* GraphQL */ `
   }
 `;
 export const onDeleteUser = /* GraphQL */ `
-  subscription OnDeleteUser($owner: String!) {
-    onDeleteUser(owner: $owner) {
+  subscription OnDeleteUser {
+    onDeleteUser {
       owner
-      username
+      displayName
       avatar {
         media {
           bucket
@@ -71,15 +71,18 @@ export const onDeleteUser = /* GraphQL */ `
   }
 `;
 export const onCreateTodo = /* GraphQL */ `
-  subscription OnCreateTodo($owner: String!) {
-    onCreateTodo(owner: $owner) {
+  subscription OnCreateTodo {
+    onCreateTodo {
       id
       privacy
       createdAt
       owner
+      name
+      description
+      updatedAt
       creator {
         owner
-        username
+        displayName
         avatar {
           media {
             bucket
@@ -96,22 +99,22 @@ export const onCreateTodo = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      name
-      description
-      updatedAt
     }
   }
 `;
 export const onUpdateTodo = /* GraphQL */ `
-  subscription OnUpdateTodo($owner: String!) {
-    onUpdateTodo(owner: $owner) {
+  subscription OnUpdateTodo {
+    onUpdateTodo {
       id
       privacy
       createdAt
       owner
+      name
+      description
+      updatedAt
       creator {
         owner
-        username
+        displayName
         avatar {
           media {
             bucket
@@ -128,22 +131,22 @@ export const onUpdateTodo = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      name
-      description
-      updatedAt
     }
   }
 `;
 export const onDeleteTodo = /* GraphQL */ `
-  subscription OnDeleteTodo($owner: String!) {
-    onDeleteTodo(owner: $owner) {
+  subscription OnDeleteTodo {
+    onDeleteTodo {
       id
       privacy
       createdAt
       owner
+      name
+      description
+      updatedAt
       creator {
         owner
-        username
+        displayName
         avatar {
           media {
             bucket
@@ -160,9 +163,6 @@ export const onDeleteTodo = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      name
-      description
-      updatedAt
     }
   }
 `;

@@ -8,59 +8,7 @@ export const createUser = /* GraphQL */ `
   ) {
     createUser(input: $input, condition: $condition) {
       owner
-      username
-      avatar {
-        media {
-          bucket
-          region
-          key
-        }
-        property {
-          size
-          height
-          width
-          duration
-        }
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateUser = /* GraphQL */ `
-  mutation UpdateUser(
-    $input: UpdateUserInput!
-    $condition: ModelUserConditionInput
-  ) {
-    updateUser(input: $input, condition: $condition) {
-      owner
-      username
-      avatar {
-        media {
-          bucket
-          region
-          key
-        }
-        property {
-          size
-          height
-          width
-          duration
-        }
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteUser = /* GraphQL */ `
-  mutation DeleteUser(
-    $input: DeleteUserInput!
-    $condition: ModelUserConditionInput
-  ) {
-    deleteUser(input: $input, condition: $condition) {
-      owner
-      username
+      displayName
       avatar {
         media {
           bucket
@@ -89,9 +37,12 @@ export const createTodo = /* GraphQL */ `
       privacy
       createdAt
       owner
+      name
+      description
+      updatedAt
       creator {
         owner
-        username
+        displayName
         avatar {
           media {
             bucket
@@ -108,8 +59,57 @@ export const createTodo = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      name
-      description
+    }
+  }
+`;
+export const updateUser = /* GraphQL */ `
+  mutation UpdateUser(
+    $input: UpdateUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    updateUser(input: $input, condition: $condition) {
+      owner
+      displayName
+      avatar {
+        media {
+          bucket
+          region
+          key
+        }
+        property {
+          size
+          height
+          width
+          duration
+        }
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteUser = /* GraphQL */ `
+  mutation DeleteUser(
+    $input: DeleteUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    deleteUser(input: $input, condition: $condition) {
+      owner
+      displayName
+      avatar {
+        media {
+          bucket
+          region
+          key
+        }
+        property {
+          size
+          height
+          width
+          duration
+        }
+      }
+      createdAt
       updatedAt
     }
   }
@@ -124,9 +124,12 @@ export const updateTodo = /* GraphQL */ `
       privacy
       createdAt
       owner
+      name
+      description
+      updatedAt
       creator {
         owner
-        username
+        displayName
         avatar {
           media {
             bucket
@@ -143,9 +146,6 @@ export const updateTodo = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      name
-      description
-      updatedAt
     }
   }
 `;
@@ -159,9 +159,12 @@ export const deleteTodo = /* GraphQL */ `
       privacy
       createdAt
       owner
+      name
+      description
+      updatedAt
       creator {
         owner
-        username
+        displayName
         avatar {
           media {
             bucket
@@ -178,9 +181,6 @@ export const deleteTodo = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      name
-      description
-      updatedAt
     }
   }
 `;
