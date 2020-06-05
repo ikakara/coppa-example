@@ -14,7 +14,7 @@ import { API, graphqlOperation } from "aws-amplify";
 import { listUsers } from "../../src/graphql/queries";
 import { onCreateUser } from "../../src/graphql/subscriptions";
 
-import { AwsUtils } from "../helpers";
+import { AwsUtils, ListUtils } from "../helpers";
 import ProgressiveImage from "../components/ProgressiveImage";
 
 const preview = require("../../assets/images/icon.png");
@@ -28,7 +28,18 @@ function reducer(state, action) {
     case "SET_USERS":
       return { ...state, users: action.users };
     case "ADD_USER":
-      return { ...state, users: [action.user, ...state.users] };
+      return {
+        ...state,
+        users: ListUtils.addOrReplaceBy( // arr = [], predicate, getItem
+          state.users,
+          { owner: action.user.owner }, // owner unique key
+          (elem) => ({ // getItem
+            ...elem,
+            ...action.user
+          })
+        )
+        //[action.user, ...state.users]
+      };
     default:
       return state;
   }

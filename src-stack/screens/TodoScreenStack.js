@@ -13,6 +13,8 @@ import { listTodos } from "../../src/graphql/queries";
 import { createTodo } from "../../src/graphql/mutations";
 import { onCreateTodo } from "../../src/graphql/subscriptions";
 
+import { ListUtils } from "../helpers";
+
 const initialState = {
   todos: [],
 };
@@ -22,7 +24,22 @@ function reducer(state, action) {
     case "SET_TODOS":
       return { ...state, todos: action.todos };
     case "ADD_TODO":
-      return { ...state, todos: [action.todo, ...state.todos] };
+      return {
+        ...state,
+        todos: ListUtils.addOrReplaceBy( // arr = [], predicate, getItem
+          state.todos,
+          { // composite unique key
+            owner: action.todo.owner,
+            privacy: action.todo.privacy,
+            createdAt: action.todo.createdAt,
+          },
+          (elem) => ({ // getItem
+            ...elem,
+            ...action.todo,
+          })
+        ),
+        // [action.todo, ...state.todos]
+      };
     default:
       return state;
   }

@@ -44,6 +44,13 @@ I love SQL. I understand the capabilities/limitations of SQL (not Joe Celko leve
 
 The main disadvantage to AWS Services are the costs.  DynamoDB (or DocumentDB) can get expensive fast - 3-4x more than a managed SQL solution (like RDS).  Really, you could go from paying $5/month to $4K/month overnight, which has happened to many AWS users (I'm reasoning, since I know at least 1 other dumbsh** that has done that).  Growth is great, except when it's not.
 
+# Experimental Process
+
+* Start w/ basic access controls schemes (e.g. privacy column [private or public]), field level @auth rules, resolver customization, etc.
+* Add static and dynamic access control for users and groups (e.g. canAccessUsers, canAccessGroups)
+* Add more complex access control using join tables @connection access control
+* Add fine-grain access control using IAM (column and row level) access control
+
 # Setup Configuraton - when I have more time, I'll add more details
 
 * Sign-up for a free AWS Account (if you don't already have one)
@@ -54,9 +61,14 @@ The main disadvantage to AWS Services are the costs.  DynamoDB (or DocumentDB) c
 * npm install (to install the node modules locally)
 * expo start -w (to run the application)
 
-# Experimental Process
+# Resolver Tweaks for Create Mutations (createTable, createUser) 
 
-* Start w/ basic access controls schemes (e.g. privacy column [private or public]), field level @auth rules, resolver customization, etc.
-* Add static and dynamic access control for users and groups (e.g. canAccessUsers, canAccessGroups)
-* Add more complex access control using join tables @connection access control
-* Add fine-grain access control using IAM (column and row level) access control
+* AWS AppSync > Coppaexample-dev > Schema > Mutation > CreateUser > Resolver
+
+`## Automatically set the owner 
+$util.qr($context.args.input.put("owner", $context.identity.username))`
+
+* AWS AppSync > Coppaexample-dev > Schema > Mutation > CreateTodo > Resolver
+
+`## Automatically set the owner 
+$util.qr($context.args.input.put("owner", $context.identity.username))`
