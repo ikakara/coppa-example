@@ -6,12 +6,14 @@ import { createStackNavigator } from "@react-navigation/stack";
 import LinkingConfiguration from "./src/navigation/LinkingConfiguration";
 import BottomTabNavigator from "./src/navigation/BottomTabNavigator";
 
-import UserScreenStack from "./src-stack/screens/UserScreenStack";
-import UserScreenModal from "./src-stack/screens/UserScreenModal";
-import ProductScreenStack from "./src-stack/screens/ProductScreenStack";
-import ProductScreenModal from "./src-stack/screens/ProductScreenModal";
-import TodoScreenStack from "./src-stack/screens/TodoScreenStack";
-import TodoScreenModal from "./src-stack/screens/TodoScreenModal";
+import {
+  UserScreenStack,
+  UserScreenModal,
+  ProductScreenStack,
+  ProductScreenModal,
+  TodoScreenStack,
+  TodoScreenModal,
+} from "./src-stack/screens";
 
 import Amplify from "@aws-amplify/core";
 import config from "./aws-exports";
