@@ -86,7 +86,6 @@ export default function UserScreenStack({ navigation }) {
 
   useEffect(() => {
     fetchUsers();
-    console.log("line 87: " + state.users);
 
     const subscription = API.graphql(graphqlOperation(onCreateUser)).subscribe({
       next: async (userData) => {
@@ -100,7 +99,7 @@ export default function UserScreenStack({ navigation }) {
   function Item({ displayName, avatarurl }) {
     let uri = undefined;
     if (avatarurl) {
-      uri = AwsUtils.downloadImage(
+      uri = AwsUtils.presignedUriForDownload(
         avatarurl,
         AwsUtils.LEVEL_PROTECTED,
         AwsUtils.MIN_EXPIRES

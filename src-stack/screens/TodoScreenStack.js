@@ -13,7 +13,7 @@ import { listTodos } from "../../src/graphql/queries";
 import { createTodo } from "../../src/graphql/mutations";
 import { onCreateTodo } from "../../src/graphql/subscriptions";
 
-import { ListUtils } from "../helpers";
+import { ListUtils, Debug } from "../helpers";
 
 const initialState = {
   todos: [],
@@ -26,14 +26,12 @@ function reducer(state, action) {
     case "ADD_TODO":
       return {
         ...state,
-        todos: ListUtils.addOrReplaceBy( // arr = [], predicate, getItem
+        todos: ListUtils.addOrReplaceBy(
+          // arr = [], predicate, getItem
           state.todos,
-          { // composite unique key
-            owner: action.todo.owner,
-            privacy: action.todo.privacy,
-            createdAt: action.todo.createdAt,
-          },
-          (elem) => ({ // getItem
+          { id: action.todo.id },
+          (elem) => ({
+            // getItem
             ...elem,
             ...action.todo,
           })
@@ -73,6 +71,9 @@ export default function TodoScreenStack({ navigation }) {
     try {
       const todoData = await API.graphql(graphqlOperation(listTodos));
       const todos = todoData.data.listTodos.items;
+
+      Debug.reportTodo(Debug.REPORT_SERIOUS, todos);
+
       dispatch({ type: "SET_TODOS", todos });
       //setTodos(todos);
     } catch (err) {
@@ -86,11 +87,10 @@ export default function TodoScreenStack({ navigation }) {
         return alert("please enter a name and description");
       const todo = { ...formState };
       //dispatch({ type: "ADD_TODO", todo });
-      //setTodos([...todos, todo]);
       console.log(state.todos);
       await API.graphql(graphqlOperation(createTodo, { input: todo }));
     } catch (err) {
-      console.log("error creating todo:", err);
+      console.log(err);
     }
   }
 
@@ -105,12 +105,12 @@ export default function TodoScreenStack({ navigation }) {
     return () => subscription.unsubscribe();
   }, []);
 
-  function Item({ name, description, privacy, creator }) {
+  function Item({ name, description, visibility, creator }) {
     return (
       <View style={styles.item}>
         <Text style={styles.title}>{name}</Text>
         <Text style={styles.description}>{description}</Text>
-        <Text style={styles.privacy}>{privacy}</Text>
+        <Text style={styles.visibility}>{visibility}</Text>
         <Text style={styles.creator}>created by {creator.displayName}</Text>
       </View>
     );
@@ -129,7 +129,7 @@ export default function TodoScreenStack({ navigation }) {
               <Item
                 name={item.name}
                 description={item.description}
-                privacy={item.privacy}
+                visibility={item.visibility}
                 creator={item.creator}
               />
             )}

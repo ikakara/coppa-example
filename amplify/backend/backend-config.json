@@ -1,43 +1,43 @@
 {
-    "auth": {
-        "coppaexample7ab8dde1": {
-            "service": "Cognito",
-            "providerPlugin": "awscloudformation",
-            "dependsOn": [],
-            "customAuth": false
-        }
-    },
-    "storage": {
-        "coppaexamplestorage": {
-            "service": "S3",
-            "providerPlugin": "awscloudformation"
-        }
-    },
-    "api": {
-        "coppaexample": {
-            "service": "AppSync",
-            "providerPlugin": "awscloudformation",
-            "output": {
-                "authConfig": {
-                    "additionalAuthenticationProviders": [
-                        {
-                            "authenticationType": "AWS_IAM"
-                        }
-                    ],
-                    "defaultAuthentication": {
-                        "authenticationType": "AMAZON_COGNITO_USER_POOLS",
-                        "userPoolConfig": {
-                            "userPoolId": "authcoppaexample7ab8dde1"
-                        }
-                    }
-                }
-            }
-        }
-    },
-    "analytics": {
-        "coppaexample": {
-            "service": "Pinpoint",
-            "providerPlugin": "awscloudformation"
-        }
-    }
+	"auth": {
+		"coppaexample7ab8dde1": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [],
+			"customAuth": false
+		}
+	},
+	"storage": {
+		"coppaexamplestorage": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation"
+		}
+	},
+	"api": {
+		"coppaexample": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"authConfig": {
+					"additionalAuthenticationProviders": [
+						{
+							"authenticationType": "AWS_IAM"
+						}
+					],
+					"defaultAuthentication": {
+						"authenticationType": "AMAZON_COGNITO_USER_POOLS",
+						"userPoolConfig": {
+							"userPoolId": "authcoppaexample7ab8dde1"
+						}
+					}
+				}
+			}
+		}
+	},
+	"analytics": {
+		"coppaexample": {
+			"service": "Pinpoint",
+			"providerPlugin": "awscloudformation"
+		}
+	}
 }

@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { Button, View, Text, StyleSheet, TextInput } from "react-native";
 import { Picker } from "@react-native-community/picker";
 
-const blankForm = { id: "", name: "", description: "", privacy: "" };
+import  { TodoModel } from "../models";
+
+const blankForm = { name: "", description: "", visibility: "" };
 
 export default function TodoScreenModal({ navigation, route }) {
   const [formState, setFormState] = useState(blankForm);
@@ -21,16 +23,18 @@ export default function TodoScreenModal({ navigation, route }) {
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text style={{ fontSize: 30 }}>Add Todo</Text>
       <Picker
-        selectedValue={formState.privacy}
+        selectedValue={formState.visibility}
         style={styles.input}
-        onValueChange={(itemValue, itemIndex) => setInput("privacy", itemValue)}
+        onValueChange={(itemValue, itemIndex) =>
+          setInput("visibility", itemValue)
+        }
       >
-        <Picker.Item label="Hidden" value="0" />
-        <Picker.Item label="Draft" value="1" />
-        <Picker.Item label="Private" value="2" />
-        <Picker.Item label="Pending Public Approval" value="3" />
-        <Picker.Item label="Public" value="4" />
-      </Picker>      
+        <Picker.Item label="Hidden" value={TodoModel.Visibility.HIDDEN} />
+        <Picker.Item label="Draft" value={TodoModel.Visibility.DRAFT} />
+        <Picker.Item label="Private" value={TodoModel.Visibility.PRIVATE} />
+        <Picker.Item label="Pending Public Approval" value={TodoModel.Visibility.PENDING} />
+        <Picker.Item label="Public" value={TodoModel.Visibility.PUBLIC} />
+      </Picker>
       <TextInput
         onChange={(event) => setInput("name", event.target.value)}
         style={styles.input}

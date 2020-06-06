@@ -28,10 +28,6 @@ export default function UserScreenModal({ navigation, route }) {
       let mimeType = ImageUtils.base64MimeType(file);
       let fileName = mimeType.replace("/", "."); // image/jpg ==> image.jpg
 
-      console.log(
-        "107 file " + fileName + " " + mimeType + " " + fileProperties
-      );
-
       const key = `${uuid()}${fileName}`;
       const fileForUpload = {
         bucket,
@@ -52,9 +48,7 @@ export default function UserScreenModal({ navigation, route }) {
         createOrUpdate = updateUser;
       }
 
-      const inputData = { owner, displayName, avatar: avatarData };
-
-      console.log("line 56: " + owner + " " + displayName);
+      const inputData = { displayName, avatar: avatarData };
 
       try {
         await AwsUtils.uploadImage(
@@ -87,7 +81,6 @@ export default function UserScreenModal({ navigation, route }) {
         100 /* width */
       );
 
-      console.log("line 90: " + width + " " + height + " " + uri);
       updateFile(uri);
       updateProperties({ width, height });
     }
@@ -98,8 +91,10 @@ export default function UserScreenModal({ navigation, route }) {
     if (user) {
       updateDisplayName(user.displayName);
       if (user.avatar && user.avatar.media && user.avatar.media.key) {
-        let imageData = AwsUtils.downloadImage(user.avatar.media.key);
-        updateAvatarUrl(imageData);
+        let presignedUri = AwsUtils.presignedUriForDownload(
+          user.avatar.media.key
+        );
+        updateAvatarUrl(presignedUri);
       }
     }
   }, []);
@@ -125,7 +120,7 @@ export default function UserScreenModal({ navigation, route }) {
       />
       <Image source={avatarUrl} style={{ width: 300 }} />
       <View style={{ flexDirection: "row" }}>
-        <Button onPress={saveUser} title="Save" color="#00cc00" />
+        <Button onPress={saveUser} title="Save Info" color="#00cc00" />
         <Button onPress={() => navigation.goBack()} title="Dismiss" />
       </View>
     </View>

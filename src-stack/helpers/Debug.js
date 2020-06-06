@@ -73,8 +73,7 @@ function report(type, msg, item) {
 
 // return true (for good); false (for bad)
 function reportMedia(type, _media) {
-  const CONFIG_WARNING =
-    `WARNING: .graphqlconfig.yml (codegen depth) is probably misconfigured `;
+  const CONFIG_WARNING = `WARNING: .graphqlconfig.yml (codegen depth) is probably misconfigured `;
 
   const { media, property } = _media || {
     media: undefined,
@@ -154,6 +153,20 @@ function reportTodo(type, array) {
   }
 
   // let's start decontruction todo to see if any data is missing
+  const { owner, visibility, name, description } = todo;
+  if (
+    owner == undefined ||
+    visibility == undefined ||
+    name == undefined ||
+    description == undefined
+  ) {
+    report(
+      type,
+      `reportTodo found undefined ${owner} ${visibility} ${name} ${description}`,
+      todo
+    );
+    return false;
+  }
 
   return false;
 }

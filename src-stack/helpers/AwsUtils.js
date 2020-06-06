@@ -11,7 +11,7 @@ function validateLevel(level) {
     case LEVEL_PUBLIC: // accessible to app users
       break;
     default:
-      level = "private";
+      level = LEVEL_PRIVATE;
   }
   return level;
 }
@@ -28,21 +28,21 @@ function validateExpires(expires) {
   return expires;
 }
 
-async function downloadImage(key, level, expires) {
+async function presignedUriForDownload(key, level, expires) {
   level = validateLevel(level);
   expires = validateExpires(expires);
 
-  let imageData = undefined;
+  let presignedUri = undefined;
   try {
-    imageData = await Storage.get(key, {
+    presignedUri = await Storage.get(key, {
       level: level,
       expires: expires,
-      track: true, // tracked by pinpint
+      track: true, // tracked by pinpoint
     });
   } catch (err) {
     console.log("error: ", err);
   }
-  return imageData;
+  return presignedUri;
 }
 
 async function uploadImage(key, file, mimeType, level) {
@@ -55,7 +55,7 @@ async function uploadImage(key, file, mimeType, level) {
       serverSideEncryption: "AES256",
       level: level,
       contentType: mimeType,
-      track: true, // tracked by pinpint
+      track: true, // tracked by pinpoint
       //ContentEncoding : "base64",
       progressCallback(progress) {
         console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
@@ -70,7 +70,7 @@ async function uploadImage(key, file, mimeType, level) {
 }
 
 export {
-  downloadImage,
+  presignedUriForDownload,
   uploadImage,
   validateLevel,
   LEVEL_PRIVATE,

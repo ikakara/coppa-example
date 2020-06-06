@@ -36,8 +36,9 @@ export const listUsers = /* GraphQL */ `
         updatedAt
         todos {
           items {
+            id
             owner
-            privacy
+            visibility
             createdAt
             name
             description
@@ -63,8 +64,9 @@ export const listUsers = /* GraphQL */ `
               updatedAt
               todos {
                 items {
+                  id
                   owner
-                  privacy
+                  visibility
                   createdAt
                   name
                   description
@@ -110,8 +112,9 @@ export const getUser = /* GraphQL */ `
       updatedAt
       todos {
         items {
+          id
           owner
-          privacy
+          visibility
           createdAt
           name
           description
@@ -137,8 +140,9 @@ export const getUser = /* GraphQL */ `
             updatedAt
             todos {
               items {
+                id
                 owner
-                privacy
+                visibility
                 createdAt
                 name
                 description
@@ -164,10 +168,11 @@ export const getUser = /* GraphQL */ `
   }
 `;
 export const getTodo = /* GraphQL */ `
-  query GetTodo($owner: String!, $privacy: Privacy!, $createdAt: AWSDateTime!) {
-    getTodo(owner: $owner, privacy: $privacy, createdAt: $createdAt) {
+  query GetTodo($id: ID!) {
+    getTodo(id: $id) {
+      id
       owner
-      privacy
+      visibility
       createdAt
       name
       description
@@ -193,8 +198,9 @@ export const getTodo = /* GraphQL */ `
         updatedAt
         todos {
           items {
+            id
             owner
-            privacy
+            visibility
             createdAt
             name
             description
@@ -220,8 +226,9 @@ export const getTodo = /* GraphQL */ `
               updatedAt
               todos {
                 items {
+                  id
                   owner
-                  privacy
+                  visibility
                   createdAt
                   name
                   description
@@ -246,24 +253,15 @@ export const getTodo = /* GraphQL */ `
 `;
 export const listTodos = /* GraphQL */ `
   query ListTodos(
-    $owner: String
-    $privacyCreatedAt: ModelTodoPrimaryCompositeKeyConditionInput
     $filter: ModelTodoFilterInput
     $limit: Int
     $nextToken: String
-    $sortDirection: ModelSortDirection
   ) {
-    listTodos(
-      owner: $owner
-      privacyCreatedAt: $privacyCreatedAt
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
+    listTodos(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
+        id
         owner
-        privacy
+        visibility
         createdAt
         name
         description
@@ -289,8 +287,9 @@ export const listTodos = /* GraphQL */ `
           updatedAt
           todos {
             items {
+              id
               owner
-              privacy
+              visibility
               createdAt
               name
               description
@@ -316,8 +315,9 @@ export const listTodos = /* GraphQL */ `
                 updatedAt
                 todos {
                   items {
+                    id
                     owner
-                    privacy
+                    visibility
                     createdAt
                     name
                     description
@@ -336,17 +336,17 @@ export const listTodos = /* GraphQL */ `
     }
   }
 `;
-export const todosByPrivacy = /* GraphQL */ `
-  query TodosByPrivacy(
-    $privacy: Privacy
+export const todosByVisibility = /* GraphQL */ `
+  query TodosByVisibility(
+    $visibility: Visibility
     $createdAt: ModelStringKeyConditionInput
     $sortDirection: ModelSortDirection
     $filter: ModelTodoFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    todosByPrivacy(
-      privacy: $privacy
+    todosByVisibility(
+      visibility: $visibility
       createdAt: $createdAt
       sortDirection: $sortDirection
       filter: $filter
@@ -354,8 +354,9 @@ export const todosByPrivacy = /* GraphQL */ `
       nextToken: $nextToken
     ) {
       items {
+        id
         owner
-        privacy
+        visibility
         createdAt
         name
         description
@@ -381,8 +382,9 @@ export const todosByPrivacy = /* GraphQL */ `
           updatedAt
           todos {
             items {
+              id
               owner
-              privacy
+              visibility
               createdAt
               name
               description
@@ -408,8 +410,9 @@ export const todosByPrivacy = /* GraphQL */ `
                 updatedAt
                 todos {
                   items {
+                    id
                     owner
-                    privacy
+                    visibility
                     createdAt
                     name
                     description

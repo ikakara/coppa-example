@@ -23,8 +23,9 @@ export const onCreateUser = /* GraphQL */ `
       updatedAt
       todos {
         items {
+          id
           owner
-          privacy
+          visibility
           createdAt
           name
           description
@@ -50,8 +51,9 @@ export const onCreateUser = /* GraphQL */ `
             updatedAt
             todos {
               items {
+                id
                 owner
-                privacy
+                visibility
                 createdAt
                 name
                 description
@@ -98,8 +100,9 @@ export const onUpdateUser = /* GraphQL */ `
       updatedAt
       todos {
         items {
+          id
           owner
-          privacy
+          visibility
           createdAt
           name
           description
@@ -125,8 +128,9 @@ export const onUpdateUser = /* GraphQL */ `
             updatedAt
             todos {
               items {
+                id
                 owner
-                privacy
+                visibility
                 createdAt
                 name
                 description
@@ -173,8 +177,9 @@ export const onDeleteUser = /* GraphQL */ `
       updatedAt
       todos {
         items {
+          id
           owner
-          privacy
+          visibility
           createdAt
           name
           description
@@ -200,8 +205,9 @@ export const onDeleteUser = /* GraphQL */ `
             updatedAt
             todos {
               items {
+                id
                 owner
-                privacy
+                visibility
                 createdAt
                 name
                 description
@@ -229,8 +235,9 @@ export const onDeleteUser = /* GraphQL */ `
 export const onCreateTodo = /* GraphQL */ `
   subscription OnCreateTodo {
     onCreateTodo {
+      id
       owner
-      privacy
+      visibility
       createdAt
       name
       description
@@ -256,8 +263,9 @@ export const onCreateTodo = /* GraphQL */ `
         updatedAt
         todos {
           items {
+            id
             owner
-            privacy
+            visibility
             createdAt
             name
             description
@@ -283,8 +291,9 @@ export const onCreateTodo = /* GraphQL */ `
               updatedAt
               todos {
                 items {
+                  id
                   owner
-                  privacy
+                  visibility
                   createdAt
                   name
                   description
@@ -310,8 +319,9 @@ export const onCreateTodo = /* GraphQL */ `
 export const onUpdateTodo = /* GraphQL */ `
   subscription OnUpdateTodo {
     onUpdateTodo {
+      id
       owner
-      privacy
+      visibility
       createdAt
       name
       description
@@ -337,8 +347,9 @@ export const onUpdateTodo = /* GraphQL */ `
         updatedAt
         todos {
           items {
+            id
             owner
-            privacy
+            visibility
             createdAt
             name
             description
@@ -364,8 +375,9 @@ export const onUpdateTodo = /* GraphQL */ `
               updatedAt
               todos {
                 items {
+                  id
                   owner
-                  privacy
+                  visibility
                   createdAt
                   name
                   description
@@ -391,8 +403,9 @@ export const onUpdateTodo = /* GraphQL */ `
 export const onDeleteTodo = /* GraphQL */ `
   subscription OnDeleteTodo {
     onDeleteTodo {
+      id
       owner
-      privacy
+      visibility
       createdAt
       name
       description
@@ -418,8 +431,9 @@ export const onDeleteTodo = /* GraphQL */ `
         updatedAt
         todos {
           items {
+            id
             owner
-            privacy
+            visibility
             createdAt
             name
             description
@@ -445,8 +459,9 @@ export const onDeleteTodo = /* GraphQL */ `
               updatedAt
               todos {
                 items {
+                  id
                   owner
-                  privacy
+                  visibility
                   createdAt
                   name
                   description

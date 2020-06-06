@@ -35,15 +35,15 @@ type User
   owner: String! # cognitor:username
   displayName: String! # @auth(rules: [{ allow: private, provider: iam, operations: [read] }])
   avatar: Media # @auth(rules: [{ allow: private, provider: iam, operations: [read] }])
-  todos: [Todo] #@connection(keyName: "ByOwner", fields: ["owner"])
+  todos: [Todo] @connection(keyName: "ByOwner", fields: ["owner"])
 }
 
-enum Privacy {
-  hidden # only owner accessible
-  draft # owner mutable, editors readable
-  private # editor accessible
-  pending # curators and admins
-  public # public accessible
+enum Visibility {
+  HIDDEN # only owner accessible
+  DRAFT # owner mutable, editors readable
+  PRIVATE # editor accessible
+  PENDING # curators and admins
+  PUBLIC # public accessible
 }
 
 # Requires the following resolver changes: createTodo
@@ -53,9 +53,9 @@ type Todo
   @model
   @key(name: "ByOwner", fields: ["owner", "createdAt"])
   @key(
-    name: "ByPrivacy"
-    fields: ["privacy", "createdAt"]
-    queryField: "todosByPrivacy"
+    name: "ByVisibility"
+    fields: ["visibility", "createdAt"]
+    queryField: "todosByVisibility"
   )
   @auth(
     rules: [
@@ -69,7 +69,7 @@ type Todo
   ) {
   id: ID!
   owner: String!
-  privacy: Privacy!
+  visibility: Visibility!
   createdAt: AWSDateTime!
   name: String!
   description: String
@@ -95,33 +95,15 @@ input MediaInput {
   property: MediaPropertyInput
 }
 
+# This is needed to override the auto-generated CreateUserInput (owner, displayName, avatar)
 input CreateUserInput {
   displayName: String!
   avatar: MediaInput
 }
 
-input CreateUserThatWorksInput {
-  displayName: String!
-  avatar: MediaInput
-}
-
-input UpdateUserInput {
-  owner: String!
-}
-
-input DeleteUserInput {
-  owner: String!
-}
-
-type Mutation {
-  createUserThatWorks(input: CreateUserThatWorksInput!): User
-    @aws_cognito_user_pools
-  #updateUser(input: UpdateUserInput!): User @aws_cognito_user_pools
-  #deleteUser(input: DeleteUserInput!): User @aws_cognito_user_pools
-}
-
+# This is needed to override the auto-generated CreateTodoInput ()
 input CreateTodoInput {
-  privacy: Privacy!
+  visibility: Visibility!
   name: String!
   description: String
 }
