@@ -51,13 +51,12 @@ enum Privacy {
 # $util.qr($context.args.input.put("owner", $context.identity.username))
 type Todo
   @model
-  @key(fields: ["owner", "privacy", "createdAt"])
+  @key(name: "ByOwner", fields: ["owner", "createdAt"])
   @key(
     name: "ByPrivacy"
     fields: ["privacy", "createdAt"]
     queryField: "todosByPrivacy"
   )
-  @key(name: "ByOwner", fields: ["owner", "createdAt"])
   @auth(
     rules: [
       # read only access to app users, and mutations for owners
@@ -68,6 +67,7 @@ type Todo
       { allow: public, provider: iam, operations: [read] }
     ]
   ) {
+  id: ID!
   owner: String!
   privacy: Privacy!
   createdAt: AWSDateTime!
