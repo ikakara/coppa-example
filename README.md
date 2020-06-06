@@ -63,12 +63,4 @@ The main disadvantage to AWS Services are the costs.  DynamoDB (or DocumentDB) c
 
 # Resolver Tweaks for Create Mutations (createTable, createUser) 
 
-* AWS AppSync > Coppaexample-dev > Schema > Mutation > CreateUser > Resolver
-
-`## Automatically set the owner 
-$util.qr($context.args.input.put("owner", $context.identity.username))`
-
-* AWS AppSync > Coppaexample-dev > Schema > Mutation > CreateTodo > Resolver
-
-`## Automatically set the owner 
-$util.qr($context.args.input.put("owner", $context.identity.username))`
+Removed the need for resolver tweaks ... so far so good
