@@ -35,7 +35,7 @@ type User
   owner: String! # cognitor:username
   displayName: String! # @auth(rules: [{ allow: private, provider: iam, operations: [read] }])
   avatar: Media # @auth(rules: [{ allow: private, provider: iam, operations: [read] }])
-  todos: [Todo] @connection(keyName: "ByOwner", fields: ["owner"])
+  todos: [Todo] #@connection(keyName: "ByOwner", fields: ["owner"])
 }
 
 enum Privacy {
@@ -75,4 +75,53 @@ type Todo
   description: String
   creator: User @connection(fields: ["owner"])
   editors: [String]
+}
+
+input S3ObjectInput {
+  bucket: String!
+  region: String!
+  key: String!
+}
+
+input MediaPropertyInput {
+  size: Int
+  height: Int
+  width: Int
+  duration: Int
+}
+
+input MediaInput {
+  media: S3ObjectInput
+  property: MediaPropertyInput
+}
+
+input CreateUserInput {
+  displayName: String!
+  avatar: MediaInput
+}
+
+input CreateUserThatWorksInput {
+  displayName: String!
+  avatar: MediaInput
+}
+
+input UpdateUserInput {
+  owner: String!
+}
+
+input DeleteUserInput {
+  owner: String!
+}
+
+type Mutation {
+  createUserThatWorks(input: CreateUserThatWorksInput!): User
+    @aws_cognito_user_pools
+  #updateUser(input: UpdateUserInput!): User @aws_cognito_user_pools
+  #deleteUser(input: DeleteUserInput!): User @aws_cognito_user_pools
+}
+
+input CreateTodoInput {
+  privacy: Privacy!
+  name: String!
+  description: String
 }
