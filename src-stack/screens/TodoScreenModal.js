@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, View, Text, StyleSheet, TextInput } from "react-native";
 import { Picker } from "@react-native-community/picker";
 
-import  { TodoModel } from "../models";
+import { TodoModel } from "../models";
 
 const blankForm = { name: "", description: "", visibility: "" };
 
@@ -32,7 +32,10 @@ export default function TodoScreenModal({ navigation, route }) {
         <Picker.Item label="Hidden" value={TodoModel.Visibility.HIDDEN} />
         <Picker.Item label="Draft" value={TodoModel.Visibility.DRAFT} />
         <Picker.Item label="Private" value={TodoModel.Visibility.PRIVATE} />
-        <Picker.Item label="Pending Public Approval" value={TodoModel.Visibility.PENDING} />
+        <Picker.Item
+          label="Pending Public Approval"
+          value={TodoModel.Visibility.PENDING}
+        />
         <Picker.Item label="Public" value={TodoModel.Visibility.PUBLIC} />
       </Picker>
       <TextInput

@@ -1,9 +1,9 @@
-import * as ProductScreenModal from "./ProdutScreenModal.js";
-import * as ProductScreenStack from "./ProductScreenStack.js";
-import * as TodoScreenModal from "./TodoScreenModal.js";
-import * as TodoScreenStack from "./TodoScreenStack.js";
-import * as UserScreenModal from "./UserScreenModal.js";
-import * as UserScreenStack from "./UserScreenStack.js";
+import ProductScreenModal from "./ProductScreenModal.js";
+import ProductScreenStack from "./ProductScreenStack.js";
+import TodoScreenModal from "./TodoScreenModal.js";
+import TodoScreenStack from "./TodoScreenStack.js";
+import UserScreenModal from "./UserScreenModal.js";
+import UserScreenStack from "./UserScreenStack.js";
 
 export {
   ProductScreenModal,

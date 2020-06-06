@@ -42,5 +42,6 @@ function ProductScreenStack({ navigation }) {
   );
 }
 
-//export default ProductScreenStack;
-export default withAuthenticator(ProductScreenStack, {includeGreetings: true,});
+export default withAuthenticator(ProductScreenStack, {
+  includeGreetings: true,
+});
