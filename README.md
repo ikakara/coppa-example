@@ -60,7 +60,3 @@ The main disadvantage to AWS Services are the costs.  DynamoDB (or DocumentDB) c
 * amplify push (to create your own back-end resources)
 * npm install (to install the node modules locally)
 * expo start -w (to run the application)
-
-# Resolver Tweaks for Create Mutations (createTable, createUser) 
-
-Removed the need for resolver tweaks ... so far so good
