@@ -5,46 +5,23 @@ import {
   Text,
   StyleSheet,
   FlatList,
-  ScrollView,
 } from "react-native";
+
+import { ScrollView } from "react-native-gesture-handler";
 
 import { API, graphqlOperation } from "aws-amplify";
 import { listTodos } from "../../src/graphql/queries";
 import { createTodo } from "../../src/graphql/mutations";
 import { onCreateTodo } from "../../src/graphql/subscriptions";
 
-import { ListUtils, Debug } from "../helpers";
+import { Debug, Reducer } from "../helpers";
 
 const initialState = {
   todos: [],
 };
 
-function reducer(state, action) {
-  switch (action.type) {
-    case "SET_TODOS":
-      return { ...state, todos: action.todos };
-    case "ADD_TODO":
-      return {
-        ...state,
-        todos: ListUtils.addOrReplaceBy(
-          // arr = [], predicate, getItem
-          state.todos,
-          { id: action.todo.id },
-          (elem) => ({
-            // getItem
-            ...elem,
-            ...action.todo,
-          })
-        ),
-        // [action.todo, ...state.todos]
-      };
-    default:
-      return state;
-  }
-}
-
 export default function TodoScreenStack({ navigation }) {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(Reducer.forTodos, initialState);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({

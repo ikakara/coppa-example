@@ -1,8 +1,9 @@
 import * as React from "react";
-import { View, Image, StyleSheet, Platform } from "react-native";
+import { View, Image, StyleSheet, Platform, Text } from "react-native";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
+import useCachedResources from './src/hooks/useCachedResources';
 import LinkingConfiguration from "./src/navigation/LinkingConfiguration";
 import BottomTabNavigator from "./src/navigation/BottomTabNavigator";
 
@@ -19,11 +20,23 @@ import Amplify from "@aws-amplify/core";
 import config from "./aws-exports";
 Amplify.configure(config);
 
-import { withAuthenticator } from "aws-amplify-react-native";
+import {
+  withAuthenticator,
+  AmplifyAuthenticator,
+  AmplifySignOut,
+} from "aws-amplify-react-native";
 
-function LogoTitle() {
+// {/* */}
+export function LogoTitle() {
   const navigation = useNavigation();
   return (
+    /*  <AmplifyAuthenticator>
+      <Text>
+        My App
+        <AmplifySignOut />
+      </Text>
+    </AmplifyAuthenticator>*/
+
     <Image
       style={{ width: 50, height: 50 }}
       source={
@@ -37,7 +50,7 @@ function LogoTitle() {
 
 const RootStack = createStackNavigator();
 
-// this is a stack navigation design
+// this is a basic tab navigation design
 function RootStackScreen(props) {
   return (
     <RootStack.Navigator mode="modal">
@@ -68,7 +81,7 @@ function RootStackScreen(props) {
 }
 
 // this is a bottom tab navigation design
-function RootTabScreen(props) {
+function RootBottomTabScreen(props) {
   return (
     <RootStack.Navigator mode="modal">
       <RootStack.Screen
@@ -82,8 +95,8 @@ function RootTabScreen(props) {
         options={{ headerShown: false }}
       />
       <RootStack.Screen
-        name="ModalProduct"
-        component={ProductScreenModal}
+        name="ModalTodo"
+        component={TodoScreenModal}
         options={{ headerShown: false }}
       />
     </RootStack.Navigator>
@@ -91,21 +104,37 @@ function RootTabScreen(props) {
 }
 
 function App() {
-  return (
-    <View style={styles.container}>
-      {Platform.OS === "ios" && <StatusBar barStyle="dark-content" />}
-      <NavigationContainer linking={LinkingConfiguration}>
-        <RootStackScreen // RootStackScreen or RootTabScreen
-          options={({ navigation, route }) => ({
-            headerRight: (props) => <LogoTitle {...props} />,
-            headerRightContainerStyle: {
-              paddingRight: 16,
-            },
-          })}
-        />
-      </NavigationContainer>
-    </View>
-  );
+  const isLoadingComplete = useCachedResources();
+
+  if (!isLoadingComplete) {
+    return null;
+  } else {
+    return (
+      <View style={styles.container}>
+        {Platform.OS === "ios" && <StatusBar barStyle="dark-content" />}
+        <NavigationContainer linking={LinkingConfiguration}>
+          <RootBottomTabScreen // Left side of the app
+            options={({ navigation, route }) => ({
+              headerRight: (props) => <LogoTitle {...props} />,
+              headerRightContainerStyle: {
+                paddingRight: 16,
+              },
+            })}
+          />
+        </NavigationContainer>
+        <NavigationContainer>
+          <RootStackScreen // Right side of the app
+            options={({ navigation, route }) => ({
+              headerRight: (props) => <LogoTitle {...props} />,
+              headerRightContainerStyle: {
+                paddingRight: 16,
+              },
+            })}
+          />
+        </NavigationContainer>
+      </View>
+    );
+  }
 }
 
 export default withAuthenticator(App);
@@ -115,5 +144,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+    flexDirection: "row",
   },
 });

@@ -3,5 +3,6 @@ import * as Auth from "./Auth.js";
 import * as AwsUtils from "./AwsUtils.js";
 import * as Debug from "./Debug.js";
 import * as ListUtils from "./ListUtils.js";
+import * as Reducer from "./Reducer.js";
 
-export { ImageUtils, Auth, AwsUtils, Debug, ListUtils };
+export { ImageUtils, Auth, AwsUtils, Debug, ListUtils, Reducer };

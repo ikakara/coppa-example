@@ -4,9 +4,10 @@ import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
   FlatList,
 } from "react-native";
+
+import { ScrollView } from "react-native-gesture-handler";
 
 import { API, graphqlOperation } from "aws-amplify";
 //import { S3Image } from "aws-amplify-react-native";
@@ -14,7 +15,7 @@ import { API, graphqlOperation } from "aws-amplify";
 import { listUsers } from "../../src/graphql/queries";
 import { onCreateUser } from "../../src/graphql/subscriptions";
 
-import { AwsUtils, ListUtils, Debug } from "../helpers";
+import { AwsUtils, Reducer, Debug } from "../helpers";
 import ProgressiveImage from "../components/ProgressiveImage";
 
 const preview = require("../../assets/images/icon.png");
@@ -22,30 +23,6 @@ const preview = require("../../assets/images/icon.png");
 const initialState = {
   users: [],
 };
-
-function reducer(state, action) {
-  switch (action.type) {
-    case "SET_USERS":
-      return { ...state, users: action.users };
-    case "ADD_USER":
-      return {
-        ...state,
-        users: ListUtils.addOrReplaceBy(
-          // arr = [], predicate, getItem
-          state.users,
-          { owner: action.user.owner }, // owner unique key
-          (elem) => ({
-            // getItem
-            ...elem,
-            ...action.user,
-          })
-        ),
-        //[action.user, ...state.users]
-      };
-    default:
-      return state;
-  }
-}
 
 export default function UserScreenStack({ navigation }) {
   React.useLayoutEffect(() => {
@@ -69,7 +46,7 @@ export default function UserScreenStack({ navigation }) {
     });
   }, [navigation]);
 
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(Reducer.forUsers, initialState);
 
   async function fetchUsers() {
     try {

@@ -40,7 +40,7 @@ export default function ProgressiveImage(props) {
       Animated.timing(intensity, {
         duration: 5000,
         toValue: 0,
-        useNativeDriver: true,
+        useNativeDriver: false,
       }).start();
     }
   }

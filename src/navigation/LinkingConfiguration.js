@@ -6,10 +6,10 @@ export default {
     Root: { // used by tab navigation
       path: 'root',
       screens: {
-        User: 'user',
+        Home: 'home',
         Links: 'links',
         Product: 'product',
-        Todo: 'todo',
+        User: 'user',
       },
     },
     User: 'user', // used by stack navigation

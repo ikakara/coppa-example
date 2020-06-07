@@ -8,7 +8,7 @@ Amplify.configure(config);
 import { withAuthenticator } from "aws-amplify-react-native";
 import { Greetings } from "aws-amplify-react-native/dist/Auth";
 
-function ProductScreenStack({ navigation }) {
+export default function ProductScreenStack({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -41,7 +41,3 @@ function ProductScreenStack({ navigation }) {
     </View>
   );
 }
-
-export default withAuthenticator(ProductScreenStack, {
-  includeGreetings: true,
-});
