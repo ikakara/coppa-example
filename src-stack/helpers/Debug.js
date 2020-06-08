@@ -1,9 +1,11 @@
+import { Alert } from "react-native";
+
 // these functions are pass by reference
 function serious(msg, promise) {
   if (promise instanceof Promise) {
-    promise.then((val) => alert(msg + val));
+    promise.then((val) => Alert.alert(msg + val));
   } else {
-    alert(msg + promise);
+    Alert.alert(msg + promise);
   }
 }
 
@@ -67,7 +69,9 @@ function report(type, msg, item) {
       debug(msg, item);
       break;
     default:
-      alert(`FOUND MISCONFIGURED REPORTING TYPE: ${type} FOR ${msg}${item}`);
+      Alert.alert(
+        `FOUND MISCONFIGURED REPORTING TYPE: ${type} FOR ${msg}${item}`
+      );
   }
 }
 

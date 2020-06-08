@@ -1,3 +1,5 @@
+import { Alert } from "react-native";
+
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as ImageUtils from "expo-image-picker";
@@ -50,7 +52,7 @@ async function pickImage() {
       Permissions.CAMERA_ROLL
     );
     if (cameraRollPerm !== "granted") {
-      alert("Sorry, we need camera roll permissions to make this work!");
+      Alert.alert("Sorry, we need camera roll permissions to make this work!");
     }
   }
 
@@ -80,7 +82,7 @@ async function takePhoto() {
       Permissions.CAMERA_ROLL
     );
     if (cameraRollPerm !== "granted" || cameraPerm !== granted) {
-      alert(
+      Alert.alert(
         "Sorry, we need camera and camera roll permissions to make this work!"
       );
     }

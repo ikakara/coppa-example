@@ -1,11 +1,5 @@
 import React, { useReducer, useEffect } from "react";
-import {
-  Button,
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-} from "react-native";
+import { Alert, Button, View, Text, StyleSheet, FlatList } from "react-native";
 
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -61,7 +55,7 @@ export default function TodoScreenStack({ navigation }) {
   async function addTodo(formState) {
     try {
       if (!formState.name || !formState.description)
-        return alert("please enter a name and description");
+        return Alert.alert("please enter a name and description");
       const todo = { ...formState };
       //dispatch({ type: "ADD_TODO", todo });
       console.log(state.todos);

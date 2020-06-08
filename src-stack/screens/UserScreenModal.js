@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Button, View, Text, StyleSheet, TextInput, Image } from "react-native";
+import {
+  Alert,
+  Button,
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Image,
+} from "react-native";
 
 import uuid from "uuid/v4";
 import { API, graphqlOperation } from "aws-amplify";
@@ -23,7 +31,7 @@ function UserScreenModal({ navigation, route }) {
 
   async function saveUser(event) {
     event.preventDefault();
-    if (!displayName) return alert("please enter a disaplay name");
+    if (!displayName) return Alert.alert("please enter a disaplay name");
 
     if (file && displayName) {
       //const { name: fileName, type: mimeType } = file;
@@ -67,7 +75,7 @@ function UserScreenModal({ navigation, route }) {
         console.log("successfully stored user data!");
       } catch (err) {
         console.log("error: ", err);
-        //alert(err.errors);
+        //Alert.alert(err.errors);
       }
 
       navigation.goBack();

@@ -21,13 +21,12 @@ const INITIAL_ROUTE_NAME = "Home";
 export function LogoTitle() {
   return (
     <View>
-
       <Text>custom stuff</Text>
     </View>
   );
 }
 
-export default function BottomTabNavigator({ navigation, route }) {
+function BottomTabNavigator({ navigation, route }) {
   // Set the header title on the parent stack navigator depending on the
   // currently active tab. Learn more in the documentation:
   // https://reactnavigation.org/docs/en/screen-options-resolution.html
@@ -76,7 +75,7 @@ export default function BottomTabNavigator({ navigation, route }) {
   );
 }
 
-// export default withAuthenticator(BottomTabNavigator);
+export default withAuthenticator(BottomTabNavigator);
 
 function getHeaderTitle(route) {
   const routeName =

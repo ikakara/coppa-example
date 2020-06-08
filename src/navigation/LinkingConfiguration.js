@@ -1,19 +1,29 @@
-import * as Linking from 'expo-linking';
+import * as Linking from "expo-linking";
 
 export default {
-  prefixes: [Linking.makeUrl('/')],
+  prefixes: [Linking.makeUrl("/")],
   config: {
-    Root: { // used by tab navigation
-      path: 'root',
+    Public: {
+      // used by tab navigation
+      path: "public",
       screens: {
-        Home: 'home',
-        Links: 'links',
-        Template: 'template',
-        User: 'user',
+        Home: "home",
+        Template: "template",
       },
     },
-    User: 'user', // used by default stack navigation
-    Template: 'template',
-    Todo: 'todo',
+    Private: {
+      // used by tab navigation
+      path: "private",
+      screens: {
+        //Home: "home",
+        Links: "links",
+        Template: "template",
+        User: "user",
+      },
+    },
+    // used by DefaultNavigator
+    User: "user",
+    Template: "template",
+    Todo: "todo",
   },
 };
