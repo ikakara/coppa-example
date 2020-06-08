@@ -8,54 +8,47 @@ import LinkingConfiguration from "./src/navigation/LinkingConfiguration";
 import BottomTabNavigator from "./src/navigation/BottomTabNavigator";
 import DefaultNavigator from "./src-default/navigation/DefaultNavigator";
 
-import { HomeScreen, TemplateScreen } from "./src/screens";
 import {
-  UserScreenModal,
-  TemplateScreenModal,
-  TodoScreenModal,
-} from "./src-default/screens";
+  HomeScreen,
+  TemplateScreen,
+  TemplateModal,
+  TodoModal,
+  UserModal,
+} from "./src/screens";
 
 import { RightHeader } from "./src/components/RightHeader";
 
-const RootStack = createStackNavigator();
+import { AmplifyAuthenticator } from "aws-amplify-react-native";
 
-function PublicScreens(props) {
-  return (
-    <RootStack.Navigator mode="modal">
-      <RootStack.Screen name="Home" component={HomeScreen} {...props} />
-      <RootStack.Screen name="Template" component={TemplateScreen} {...props} />
-    </RootStack.Navigator>
-  );
-}
+const RootStack = createStackNavigator();
 
 // this is a bottom tab navigation design
 function RootBottomTabScreen(props) {
   return (
+    // BottomTabNavigator is wrapped w/ withAuthenticator
     <RootStack.Navigator mode="modal">
       <RootStack.Screen
-        name="Private"
+        name="Root"
         component={BottomTabNavigator}
         {...props} // options={{ headerShown: false }} or {...props}
       />
+      {/* Public Screens go below */}
+      <RootStack.Screen name="Home" component={HomeScreen} {...props} />
+      <RootStack.Screen name="Template" component={TemplateScreen} {...props} />
+      {/* Modal Screens go below and each need to be wrapped withAuthenticator */}
       <RootStack.Screen
-        name="Public"
-        component={PublicScreens}
-        {...props} // options={{ headerShown: false }} or {...props}
-      />
-      {/* Modal Screens go below */}
-      <RootStack.Screen
-        name="ModalUser"
-        component={UserScreenModal}
+        name="ModalTemplate"
+        component={TemplateModal}
         options={{ headerShown: false }}
       />
       <RootStack.Screen
         name="ModalTodo"
-        component={TodoScreenModal}
+        component={TodoModal}
         options={{ headerShown: false }}
       />
       <RootStack.Screen
-        name="ModalTemplate"
-        component={TemplateScreenModal}
+        name="ModalUser"
+        component={UserModal}
         options={{ headerShown: false }}
       />
     </RootStack.Navigator>
@@ -87,8 +80,8 @@ export default function App(props) {
     return (
       <View style={styles.container}>
         {Platform.OS === "ios" && <StatusBar barStyle="dark-content" />}
-        {/*<BottomTabNavigationContainer {...props} />*/}
-        <DefaultNavigator {...props} />
+        <BottomTabNavigationContainer {...props} />
+        {/*<DefaultNavigator {...props} />*/}
       </View>
     );
   }

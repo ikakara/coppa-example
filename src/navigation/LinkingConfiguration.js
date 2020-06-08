@@ -3,31 +3,23 @@ import * as Linking from "expo-linking";
 export default {
   prefixes: [Linking.makeUrl("/")],
   config: {
-    Public: {
+    Root: {
       // used by tab navigation
-      path: "public",
-      screens: {
-        Home: "home",
-        Template: "template",
-      },
-    },
-    Private: {
-      // used by tab navigation
-      path: "private",
+      path: "root",
       screens: {
         //Home: "home",
         Links: "links",
-        Template: "template",
+        //Template: "template",
         User: "user",
         ModalUser: "modal-user",
         ModalTemplate: "modal-template",
         ModalTodo: "modal-todo",
       },
     },
-    // used by DefaultNavigator
-    User: "user",
+    // Public
+    Home: "home",
     Template: "template",
-    Todo: "todo",
+    // Modal screens that are protected
     ModalUser: "modal-user",
     ModalTemplate: "modal-template",
     ModalTodo: "modal-todo",

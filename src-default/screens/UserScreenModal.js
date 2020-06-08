@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  Alert,
   Button,
   View,
   Text,
@@ -15,7 +14,7 @@ import { createUser, updateUser } from "../../src/graphql/mutations";
 
 import { withAuthenticator } from "aws-amplify-react-native";
 
-import { ImageUtils, Auth, AwsUtils } from "../../src/helpers";
+import { ImageUtils, Auth, AwsUtils, Debug } from "../../src/helpers";
 import config from "../../aws-exports";
 
 const {
@@ -31,7 +30,8 @@ function UserScreenModal({ navigation, route }) {
 
   async function saveUser(event) {
     event.preventDefault();
-    if (!displayName) return Alert.alert("please enter a disaplay name");
+    if (!displayName)
+      return Debug.serious("Invalid input: ", "Please enter a disaplay name");
 
     if (file && displayName) {
       //const { name: fileName, type: mimeType } = file;
@@ -75,7 +75,6 @@ function UserScreenModal({ navigation, route }) {
         console.log("successfully stored user data!");
       } catch (err) {
         console.log("error: ", err);
-        //Alert.alert(err.errors);
       }
 
       navigation.goBack();

@@ -1,7 +1,9 @@
 import * as React from "react";
 import { View, Image, Text } from "react-native";
 
-function RightHeader() {
+//{this.state.authState.isLoggedIn ? 'User is Logged In' : 'Not Logged In'}
+
+function RightHeader(props) {
   return (
     <View>
       <Text>Right Header - remove me</Text>

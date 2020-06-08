@@ -1,9 +1,8 @@
-import { Alert } from "react-native";
-
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as ImageUtils from "expo-image-picker";
 import * as ImageManipulator from "expo-image-manipulator";
+import { Debug } from "../helpers";
 
 //
 // from: https://github.com/expo/image-upload-example/blob/master/frontend/App.js#L109
@@ -37,7 +36,6 @@ function base64MimeType(encoded) {
   }
 
   var mime = encoded.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/);
-  //console.log(mime);
   if (mime && mime.length) {
     result = mime[1];
   }
@@ -52,7 +50,10 @@ async function pickImage() {
       Permissions.CAMERA_ROLL
     );
     if (cameraRollPerm !== "granted") {
-      Alert.alert("Sorry, we need camera roll permissions to make this work!");
+      Debug.serious(
+        "Sorry Charlie: ",
+        "We need camera roll permissions to make this work!"
+      );
     }
   }
 
@@ -82,8 +83,9 @@ async function takePhoto() {
       Permissions.CAMERA_ROLL
     );
     if (cameraRollPerm !== "granted" || cameraPerm !== granted) {
-      Alert.alert(
-        "Sorry, we need camera and camera roll permissions to make this work!"
+      Debug.serious(
+        "Sorry Charlie: ",
+        "We need camera and camera roll permissions to make this work!"
       );
     }
   }

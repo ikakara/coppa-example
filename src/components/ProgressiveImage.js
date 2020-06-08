@@ -25,7 +25,7 @@ export default function ProgressiveImage(props) {
           updateUri(image);
         })
         .catch((err) => {
-          console.error(err);
+          console.error("error: ", err);
         });
     } else {
       await Image.prefetch(uri);

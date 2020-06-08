@@ -1,9 +1,10 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import * as React from "react";
-import { View, Image, StyleSheet, Platform, Text } from "react-native";
+import { View, Text } from "react-native";
 
 import TabBarIcon from "../components/TabBarIcon";
-import { HomeScreen, LinksScreen, UserScreen } from "../screens";
+import { HomeScreen, LinksScreen, TemplateScreen } from "../screens";
+import { Debug } from "../helpers"
 
 import Amplify from "@aws-amplify/core";
 import config from "../../aws-exports";
@@ -18,12 +19,44 @@ import {
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = "Home";
 
-export function LogoTitle() {
-  return (
-    <View>
-      <Text>custom stuff</Text>
-    </View>
-  );
+function getRightHeader(route) {
+  const routeName =
+    route.state?.routes[route.state.index]?.name ?? INITIAL_ROUTE_NAME;
+
+  switch (routeName) {
+    case "Home":
+      return (
+        <View>
+          <Text>Home</Text>
+        </View>
+      );
+    case "Template":
+      return (
+        <View>
+          <Text>Template</Text>
+        </View>
+      );
+    case "Links":
+      return (
+        <View>
+          <Text>Links</Text>
+        </View>
+      );
+  }
+}
+
+function getHeaderTitle(route) {
+  const routeName =
+    route.state?.routes[route.state.index]?.name ?? INITIAL_ROUTE_NAME;
+
+  switch (routeName) {
+    case "Home":
+      return "Home";
+    case "Template":
+      return "Template";
+    case "Links":
+      return "Update User";
+  }
 }
 
 function BottomTabNavigator({ navigation, route }) {
@@ -32,7 +65,7 @@ function BottomTabNavigator({ navigation, route }) {
   // https://reactnavigation.org/docs/en/screen-options-resolution.html
   navigation.setOptions({
     headerTitle: getHeaderTitle(route),
-    headerRight: (props) => <LogoTitle {...props} />,
+    headerRight: (props) => getRightHeader(route),
     headerRightContainerStyle: {
       paddingRight: 16,
     },
@@ -44,17 +77,17 @@ function BottomTabNavigator({ navigation, route }) {
         name="Home"
         component={HomeScreen}
         options={{
-          title: "Get Started",
+          title: "Todos",
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name="md-code-working" />
           ),
         }}
       />
       <BottomTab.Screen
-        name="Users"
-        component={UserScreen}
+        name="Template"
+        component={TemplateScreen}
         options={{
-          title: "User",
+          title: "Template",
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name="md-book" />
           ),
@@ -65,7 +98,7 @@ function BottomTabNavigator({ navigation, route }) {
         name="Links"
         component={LinksScreen}
         options={{
-          title: "Resources",
+          title: "User Info",
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name="md-book" />
           ),
@@ -76,15 +109,3 @@ function BottomTabNavigator({ navigation, route }) {
 }
 
 export default withAuthenticator(BottomTabNavigator);
-
-function getHeaderTitle(route) {
-  const routeName =
-    route.state?.routes[route.state.index]?.name ?? INITIAL_ROUTE_NAME;
-
-  switch (routeName) {
-    case "Home":
-      return "Home";
-    case "Links":
-      return "Links to learn more";
-  }
-}

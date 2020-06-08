@@ -16,9 +16,11 @@ async function userInfo() {
 
   try {
     const username = username();
-    user = await API.graphql(graphqlOperation(getUser, { input: { username } }));
+    user = await API.graphql(
+      graphqlOperation(getUser, { input: { username } })
+    );
   } catch (err) {
-    console.log("error fetching user");
+    console.log("error: ", err);
   }
 
   return user;

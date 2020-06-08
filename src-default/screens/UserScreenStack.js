@@ -53,7 +53,7 @@ function UserScreenStack({ navigation }) {
 
       dispatch({ type: "SET_USERS", users });
     } catch (err) {
-      console.log(err);
+      console.log("error: ", err);
     }
   }
 

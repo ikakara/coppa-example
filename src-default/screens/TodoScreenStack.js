@@ -1,5 +1,5 @@
 import React, { useReducer, useEffect } from "react";
-import { Alert, Button, View, Text, StyleSheet, FlatList } from "react-native";
+import { Button, View, Text, StyleSheet, FlatList } from "react-native";
 
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -48,20 +48,23 @@ export default function TodoScreenStack({ navigation }) {
       dispatch({ type: "SET_TODOS", todos });
       //setTodos(todos);
     } catch (err) {
-      console.log("error fetching todos");
+      console.log("error: ", err);
     }
   }
 
   async function addTodo(formState) {
     try {
       if (!formState.name || !formState.description)
-        return Alert.alert("please enter a name and description");
+        return Debug.serious(
+          "Invalid input: ",
+          "Please enter a name and description"
+        );
       const todo = { ...formState };
       //dispatch({ type: "ADD_TODO", todo });
       console.log(state.todos);
       await API.graphql(graphqlOperation(createTodo, { input: todo }));
     } catch (err) {
-      console.log(err);
+      console.log("error: ", err);
     }
   }
 

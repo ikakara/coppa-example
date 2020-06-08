@@ -1,11 +1,20 @@
-import { Alert } from "react-native";
+import { Alert, Platform } from "react-native";
+
+// web workaround: https://github.com/necolas/react-native-web#modules
+function _alert(msg, desc) {
+  if (Platform.OS === "web") {
+    alert(msg + desc);
+  } else {
+    Alert.alert(msg, desc);
+  }
+}
 
 // these functions are pass by reference
 function serious(msg, promise) {
   if (promise instanceof Promise) {
-    promise.then((val) => Alert.alert(msg + val));
+    promise.then((val) => _alert(msg, val));
   } else {
-    Alert.alert(msg + promise);
+    _alert(msg, promise);
   }
 }
 
@@ -69,9 +78,7 @@ function report(type, msg, item) {
       debug(msg, item);
       break;
     default:
-      Alert.alert(
-        `FOUND MISCONFIGURED REPORTING TYPE: ${type} FOR ${msg}${item}`
-      );
+      _alert(`FOUND MISCONFIGURED REPORTING TYPE: ${type} FOR ${msg} `, item);
   }
 }
 
