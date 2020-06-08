@@ -9,8 +9,8 @@ import { API, graphqlOperation } from "aws-amplify";
 import { listUsers } from "../../src/graphql/queries";
 import { onCreateUser } from "../../src/graphql/subscriptions";
 
-import { AwsUtils, Reducer, Debug } from "../helpers";
-import ProgressiveImage from "../components/ProgressiveImage";
+import { AwsUtils, Reducer, Debug } from "../../src/helpers";
+import ProgressiveImage from "../../src/components/ProgressiveImage";
 
 import { withAuthenticator } from "aws-amplify-react-native";
 

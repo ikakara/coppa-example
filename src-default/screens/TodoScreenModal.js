@@ -4,7 +4,7 @@ import { Picker } from "@react-native-community/picker";
 
 import { withAuthenticator } from "aws-amplify-react-native";
 
-import { TodoModel } from "../models";
+import { TodoModel } from "../../src/models";
 
 const blankForm = { name: "", description: "", visibility: "" };
 

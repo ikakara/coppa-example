@@ -2,7 +2,7 @@
 import * as React from "react";
 import { StyleSheet, View, Dimensions } from "react-native";
 
-import ProgressiveImage from "./src-stack/components/ProgressiveImage";
+import ProgressiveImage from "./src-default/components/ProgressiveImage";
 
 export default class App extends React.Component {
   render() {

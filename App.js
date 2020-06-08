@@ -6,14 +6,14 @@ import { createStackNavigator } from "@react-navigation/stack";
 import useCachedResources from "./src/hooks/useCachedResources";
 import LinkingConfiguration from "./src/navigation/LinkingConfiguration";
 import BottomTabNavigator from "./src/navigation/BottomTabNavigator";
-import DefaultNavigator from "./src/navigation/DefaultNavigator";
+import DefaultNavigator from "./src-default/navigation/DefaultNavigator";
 
 import { HomeScreen, TemplateScreen } from "./src/screens";
 import {
   UserScreenModal,
   TemplateScreenModal,
   TodoScreenModal,
-} from "./src-stack/screens";
+} from "./src-default/screens";
 
 import { RightHeader } from "./src/components/RightHeader";
 
@@ -87,8 +87,8 @@ export default function App(props) {
     return (
       <View style={styles.container}>
         {Platform.OS === "ios" && <StatusBar barStyle="dark-content" />}
-        <BottomTabNavigationContainer {...props} />
-        {/*<DefaultNavigator {...props} />*/}
+        {/*<BottomTabNavigationContainer {...props} />*/}
+        <DefaultNavigator {...props} />
       </View>
     );
   }

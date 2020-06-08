@@ -3,25 +3,13 @@ import * as Linking from "expo-linking";
 export default {
   prefixes: [Linking.makeUrl("/")],
   config: {
-    Public: {
-      // used by tab navigation
-      path: "public",
+    Root: {
+      // can add another level of nesting
+      path: "root",
       screens: {
         Home: "home",
         Template: "template",
-      },
-    },
-    Private: {
-      // used by tab navigation
-      path: "private",
-      screens: {
-        //Home: "home",
-        Links: "links",
-        Template: "template",
-        User: "user",
-        ModalUser: "modal-user",
-        ModalTemplate: "modal-template",
-        ModalTodo: "modal-todo",
+        Todo: "todo",
       },
     },
     // used by DefaultNavigator

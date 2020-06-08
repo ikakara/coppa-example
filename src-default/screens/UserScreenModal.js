@@ -15,7 +15,7 @@ import { createUser, updateUser } from "../../src/graphql/mutations";
 
 import { withAuthenticator } from "aws-amplify-react-native";
 
-import { ImageUtils, Auth, AwsUtils } from "../helpers";
+import { ImageUtils, Auth, AwsUtils } from "../../src/helpers";
 import config from "../../aws-exports";
 
 const {

@@ -1,4 +1,4 @@
-import TemplateScreenModal from "./TemplatetScreenModal.js";
+import TemplateScreenModal from "./TemplateScreenModal.js";
 import TemplateScreenStack from "./TemplateScreenStack.js";
 import TodoScreenModal from "./TodoScreenModal.js";
 import TodoScreenStack from "./TodoScreenStack.js";

@@ -8,7 +8,7 @@ import { listTodos } from "../../src/graphql/queries";
 import { createTodo } from "../../src/graphql/mutations";
 import { onCreateTodo } from "../../src/graphql/subscriptions";
 
-import { Debug, Reducer } from "../helpers";
+import { Debug, Reducer } from "../../src/helpers";
 
 const initialState = {
   todos: [],

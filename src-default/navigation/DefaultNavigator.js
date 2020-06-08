@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import LinkingConfiguration from "./LinkingConfiguration";
-import { RightHeader } from "../components/RightHeader";
+import { RightHeader } from "../../src/components/RightHeader";
 
 import {
   UserScreenStack,
@@ -12,7 +12,7 @@ import {
   TemplateScreenModal,
   TodoScreenStack,
   TodoScreenModal,
-} from "../../src-stack/screens";
+} from "../screens";
 
 const DefaultStack = createStackNavigator();
 
