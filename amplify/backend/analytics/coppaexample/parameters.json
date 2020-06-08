@@ -1,11 +1,11 @@
 {
     "appName": "coppaexample",
-    "roleName": "pinpointLambdaRole8645a2b7",
-    "cloudformationPolicyName": "cloudformationPolicy8645a2b7",
-    "cloudWatchPolicyName": "cloudWatchPolicy8645a2b7",
-    "pinpointPolicyName": "pinpointPolicy8645a2b7",
-    "authPolicyName": "pinpoint_amplify_8645a2b7",
-    "unauthPolicyName": "pinpoint_amplify_8645a2b7",
+    "roleName": "pinpointLambdaRole3e4c2228",
+    "cloudformationPolicyName": "cloudformationPolicy3e4c2228",
+    "cloudWatchPolicyName": "cloudWatchPolicy3e4c2228",
+    "pinpointPolicyName": "pinpointPolicy3e4c2228",
+    "authPolicyName": "pinpoint_amplify_3e4c2228",
+    "unauthPolicyName": "pinpoint_amplify_3e4c2228",
     "authRoleName": {
         "Ref": "AuthRoleName"
     },

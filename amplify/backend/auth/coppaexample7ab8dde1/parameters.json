@@ -1,6 +1,6 @@
 {
     "identityPoolName": "coppaexample7ab8dde1_identitypool_7ab8dde1",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "coppae7ab8dde1",
     "userPoolName": "coppaexample7ab8dde1_userpool_7ab8dde1",
     "autoVerifiedAttributes": [

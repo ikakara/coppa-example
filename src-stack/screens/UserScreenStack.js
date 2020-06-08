@@ -1,11 +1,5 @@
 import React, { useReducer, useEffect } from "react";
-import {
-  Button,
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-} from "react-native";
+import { Button, View, Text, StyleSheet, FlatList } from "react-native";
 
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -18,13 +12,15 @@ import { onCreateUser } from "../../src/graphql/subscriptions";
 import { AwsUtils, Reducer, Debug } from "../helpers";
 import ProgressiveImage from "../components/ProgressiveImage";
 
+import { withAuthenticator } from "aws-amplify-react-native";
+
 const preview = require("../../assets/images/icon.png");
 
 const initialState = {
   users: [],
 };
 
-export default function UserScreenStack({ navigation }) {
+function UserScreenStack({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -35,8 +31,8 @@ export default function UserScreenStack({ navigation }) {
             color="#00cc00"
           />
           <Button
-            title="Go to Product"
-            onPress={() => navigation.navigate("Product")}
+            title="Go to Template"
+            onPress={() => navigation.navigate("Template")}
           />
         </View>
       ),
@@ -145,6 +141,8 @@ export default function UserScreenStack({ navigation }) {
     );
   }
 }
+
+export default withAuthenticator(UserScreenStack);
 
 const styles = StyleSheet.create({
   container: {

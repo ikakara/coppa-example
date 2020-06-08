@@ -6,16 +6,15 @@ import config from "../../aws-exports";
 Amplify.configure(config);
 
 import { withAuthenticator } from "aws-amplify-react-native";
-import { Greetings } from "aws-amplify-react-native/dist/Auth";
 
-export default function ProductScreenStack({ navigation }) {
+function TemplateScreenStack({ navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <View style={{ flexDirection: "row" }}>
           <Button
-            onPress={() => navigation.navigate("ModalProduct")}
-            title="Add Product"
+            onPress={() => navigation.navigate("ModalTemplate")}
+            title="Do Modal Template"
             color="#00cc00"
           />
           <Button
@@ -32,12 +31,14 @@ export default function ProductScreenStack({ navigation }) {
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text style={{ fontSize: 30 }}>This is the product screen!</Text>
+      <Text style={{ fontSize: 30 }}>This is the template screen!</Text>
       <Button
-        onPress={() => navigation.navigate("ModalProduct")}
-        title="Add Product"
+        onPress={() => navigation.navigate("ModalTemplate")}
+        title="Do Modal Template"
         color="#00cc00"
       />
     </View>
   );
 }
+
+export default withAuthenticator(TemplateScreenStack);

@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { Button, View, Text, StyleSheet, TextInput } from "react-native";
 import { Picker } from "@react-native-community/picker";
 
+import { withAuthenticator } from "aws-amplify-react-native";
+
 import { TodoModel } from "../models";
 
 const blankForm = { name: "", description: "", visibility: "" };
 
-export default function TodoScreenModal({ navigation, route }) {
+function TodoScreenModal({ navigation, route }) {
   const [formState, setFormState] = useState(blankForm);
 
   function addTodo() {
@@ -57,6 +59,8 @@ export default function TodoScreenModal({ navigation, route }) {
     </View>
   );
 }
+
+export default withAuthenticator(TodoScreenModal);
 
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: "center", padding: 20 },

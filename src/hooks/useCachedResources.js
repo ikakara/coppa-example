@@ -3,6 +3,8 @@ import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import * as React from "react";
 
+import { Auth } from "aws-amplify";
+
 export default function useCachedResources() {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
 
@@ -11,6 +13,10 @@ export default function useCachedResources() {
     async function loadResourcesAndDataAsync() {
       try {
         SplashScreen.preventAutoHideAsync();
+
+        await Auth.currentCredentials()
+          .then((d) => console.log("data: ", d))
+          .catch((e) => console.log("error: ", e));
 
         // Load fonts
         await Font.loadAsync({

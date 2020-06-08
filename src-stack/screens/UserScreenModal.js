@@ -5,6 +5,8 @@ import uuid from "uuid/v4";
 import { API, graphqlOperation } from "aws-amplify";
 import { createUser, updateUser } from "../../src/graphql/mutations";
 
+import { withAuthenticator } from "aws-amplify-react-native";
+
 import { ImageUtils, Auth, AwsUtils } from "../helpers";
 import config from "../../aws-exports";
 
@@ -13,7 +15,7 @@ const {
   aws_user_files_s3_bucket: bucket,
 } = config;
 
-export default function UserScreenModal({ navigation, route }) {
+function UserScreenModal({ navigation, route }) {
   const [file, updateFile] = useState(undefined);
   const [fileProperties, updateProperties] = useState(undefined);
   const [displayName, updateDisplayName] = useState("");
@@ -126,6 +128,8 @@ export default function UserScreenModal({ navigation, route }) {
     </View>
   );
 }
+
+export default withAuthenticator(UserScreenModal);
 
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: "center", padding: 20 },

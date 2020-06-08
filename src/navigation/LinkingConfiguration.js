@@ -8,12 +8,12 @@ export default {
       screens: {
         Home: 'home',
         Links: 'links',
-        Product: 'product',
+        Template: 'template',
         User: 'user',
       },
     },
-    User: 'user', // used by stack navigation
-    Product: 'product',
+    User: 'user', // used by default stack navigation
+    Template: 'template',
     Todo: 'todo',
   },
 };

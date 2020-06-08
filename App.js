@@ -3,15 +3,16 @@ import { View, Image, StyleSheet, Platform, Text } from "react-native";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import useCachedResources from './src/hooks/useCachedResources';
+import useCachedResources from "./src/hooks/useCachedResources";
 import LinkingConfiguration from "./src/navigation/LinkingConfiguration";
 import BottomTabNavigator from "./src/navigation/BottomTabNavigator";
 
+import { UserScreen } from "./src/screens";
 import {
   UserScreenStack,
   UserScreenModal,
-  ProductScreenStack,
-  ProductScreenModal,
+  TemplateScreenStack,
+  TemplateScreenModal,
   TodoScreenStack,
   TodoScreenModal,
 } from "./src-stack/screens";
@@ -36,15 +37,17 @@ export function LogoTitle() {
         <AmplifySignOut />
       </Text>
     </AmplifyAuthenticator>*/
-
-    <Image
-      style={{ width: 50, height: 50 }}
-      source={
-        __DEV__
-          ? require("./assets/images/robot-dev.png")
-          : require("./assets/images/robot-prod.png")
-      }
-    />
+    <View>
+      <Text>this is a bunch of text</Text>
+      <Image
+        style={{ width: 50, height: 50 }}
+        source={
+          __DEV__
+            ? require("./assets/images/robot-dev.png")
+            : require("./assets/images/robot-prod.png")
+        }
+      />
+    </View>
   );
 }
 
@@ -56,8 +59,8 @@ function RootStackScreen(props) {
     <RootStack.Navigator mode="modal">
       <RootStack.Screen name="User" component={UserScreenStack} {...props} />
       <RootStack.Screen
-        name="Product"
-        component={ProductScreenStack}
+        name="Template"
+        component={TemplateScreenStack}
         {...props}
       />
       <RootStack.Screen name="Todo" component={TodoScreenStack} {...props} />
@@ -67,8 +70,8 @@ function RootStackScreen(props) {
         options={{ headerShown: false }}
       />
       <RootStack.Screen
-        name="ModalProduct"
-        component={ProductScreenModal}
+        name="ModalTemplate"
+        component={TemplateScreenModal}
         options={{ headerShown: false }}
       />
       <RootStack.Screen
@@ -89,6 +92,7 @@ function RootBottomTabScreen(props) {
         component={BottomTabNavigator}
         {...props} // options={{ headerShown: false }} or {...props}
       />
+      <RootStack.Screen name="UserLink" component={UserScreen} {...props} />
       <RootStack.Screen
         name="ModalUser"
         component={UserScreenModal}
@@ -103,6 +107,36 @@ function RootBottomTabScreen(props) {
   );
 }
 
+function BottomTabNavigationContainer(props) {
+  return (
+    <NavigationContainer linking={LinkingConfiguration}>
+      <RootBottomTabScreen // Left side of the app
+        options={({ navigation, route }) => ({
+          headerRight: (props) => <LogoTitle {...props} />,
+          headerRightContainerStyle: {
+            paddingRight: 16,
+          },
+        })}
+      />
+    </NavigationContainer>
+  );
+}
+
+function DefaultNavigationContainer(props) {
+  return (
+    <NavigationContainer>
+      <RootStackScreen // Right side of the app
+        options={({ navigation, route }) => ({
+          headerRight: (props) => <LogoTitle {...props} />,
+          headerRightContainerStyle: {
+            paddingRight: 16,
+          },
+        })}
+      />
+    </NavigationContainer>
+  );
+}
+
 function App() {
   const isLoadingComplete = useCachedResources();
 
@@ -112,33 +146,16 @@ function App() {
     return (
       <View style={styles.container}>
         {Platform.OS === "ios" && <StatusBar barStyle="dark-content" />}
-        <NavigationContainer linking={LinkingConfiguration}>
-          <RootBottomTabScreen // Left side of the app
-            options={({ navigation, route }) => ({
-              headerRight: (props) => <LogoTitle {...props} />,
-              headerRightContainerStyle: {
-                paddingRight: 16,
-              },
-            })}
-          />
-        </NavigationContainer>
-        <NavigationContainer>
-          <RootStackScreen // Right side of the app
-            options={({ navigation, route }) => ({
-              headerRight: (props) => <LogoTitle {...props} />,
-              headerRightContainerStyle: {
-                paddingRight: 16,
-              },
-            })}
-          />
-        </NavigationContainer>
+        <BottomTabNavigationContainer />
+        <DefaultNavigationContainer />
+        {/**/}
       </View>
     );
   }
 }
 
-export default withAuthenticator(App);
-//export default App;
+//export default withAuthenticator(App);
+export default App;
 
 const styles = StyleSheet.create({
   container: {
