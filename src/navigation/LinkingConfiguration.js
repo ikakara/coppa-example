@@ -7,7 +7,7 @@ export default {
       // used by tab navigation
       path: "root",
       screens: {
-        //Home: "home",
+        Home: "home",
         Links: "links",
         //Template: "template",
         User: "user",
@@ -16,8 +16,16 @@ export default {
         ModalTodo: "modal-todo",
       },
     },
+    Public: {
+      // used by tab navigation
+      path: "pubic",
+      screens: {
+        Public: "public",
+        Template: "template",
+      },
+    },
     // Public
-    Home: "home",
+    Public: "public",
     Template: "template",
     // Modal screens that are protected
     ModalUser: "modal-user",

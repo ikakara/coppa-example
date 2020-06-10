@@ -24,7 +24,7 @@ const AlwaysOn = (props) => {
     <Authenticator hideDefault={true}>
       <View>
         <Text>sfaf</Text>
-       {/* <Button
+        {/* <Button
           title={Auth.username() | "Sign In"}
           onPress={() => props.onStateChange("signUp")}
         />*/}
@@ -120,4 +120,5 @@ function BottomTabNavigator({ navigation, route }) {
   );
 }
 
+//export default BottomTabNavigator;
 export default withAuthenticator(BottomTabNavigator);

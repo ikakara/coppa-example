@@ -8,8 +8,10 @@ import LinkingConfiguration from "./src/navigation/LinkingConfiguration";
 import BottomTabNavigator from "./src/navigation/BottomTabNavigator";
 import DefaultNavigator from "./src-default/navigation/DefaultNavigator";
 
+import { RootNavigation } from "./src/navigation";
 import {
-  HomeScreen,
+  PublicScreen,
+  UserScreen,
   TemplateScreen,
   TemplateModal,
   TodoModal,
@@ -24,6 +26,7 @@ const RootStack = createStackNavigator();
 function RootBottomTabScreen(props) {
   return (
     // BottomTabNavigator is wrapped w/ withAuthenticator
+
     <RootStack.Navigator mode="modal">
       <RootStack.Screen
         name="Root"
@@ -31,7 +34,7 @@ function RootBottomTabScreen(props) {
         {...props} // options={{ headerShown: false }} or {...props}
       />
       {/* Public Screens go below */}
-      <RootStack.Screen name="Home" component={HomeScreen} {...props} />
+      <RootStack.Screen name="Public" component={PublicScreen} {...props} />
       <RootStack.Screen name="Template" component={TemplateScreen} {...props} />
       {/* Modal Screens go below and each need to be wrapped withAuthenticator */}
       <RootStack.Screen
@@ -56,7 +59,10 @@ function RootBottomTabScreen(props) {
 // This is a component to make it easy to swap with DefaultNavigator
 function BottomTabNavigationContainer(props) {
   return (
-    <NavigationContainer linking={LinkingConfiguration}>
+    <NavigationContainer
+      ref={RootNavigation.navigationRef}
+      linking={LinkingConfiguration}
+    >
       <RootBottomTabScreen
         options={({ navigation, route }) => ({
           headerRight: (props) => <RightHeader {...props} />,
