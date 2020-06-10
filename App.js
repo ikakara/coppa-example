@@ -18,8 +18,6 @@ import {
 
 import { RightHeader } from "./src/components/RightHeader";
 
-import { AmplifyAuthenticator } from "aws-amplify-react-native";
-
 const RootStack = createStackNavigator();
 
 // this is a bottom tab navigation design

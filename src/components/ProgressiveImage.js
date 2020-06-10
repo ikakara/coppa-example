@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { Image, Animated, StyleSheet, View, Platform } from "react-native";
 import { BlurView } from "expo";
 
+import { LOG } from "../helpers";
+
 if (Platform.OS === "ios") {
   const AnimatedImage = Animated.createAnimatedComponent(BlurView);
 }
@@ -17,7 +19,7 @@ export default function ProgressiveImage(props) {
   }, []);
 
   async function fetchImage() {
-    console.log("in fetchImage " + uri);
+    LOG.info("in fetchImage ", uri);
     if (uri instanceof Promise) {
       uri
         .then((image) => {
@@ -25,7 +27,7 @@ export default function ProgressiveImage(props) {
           updateUri(image);
         })
         .catch((err) => {
-          console.error("error: ", err);
+          LOG.error("error: ", err);
         });
     } else {
       await Image.prefetch(uri);
@@ -34,7 +36,7 @@ export default function ProgressiveImage(props) {
   }
 
   function onLoadEnd(euri) {
-    console.log("in onLoadEnd");
+    LOG.info("in onLoadEnd", euri);
     if (euri == preview) {
       //updateIntensity(new Animated.Value(100));
       Animated.timing(intensity, {

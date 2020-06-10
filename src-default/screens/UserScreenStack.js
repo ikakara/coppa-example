@@ -9,7 +9,7 @@ import { API, graphqlOperation } from "aws-amplify";
 import { listUsers } from "../../src/graphql/queries";
 import { onCreateUser } from "../../src/graphql/subscriptions";
 
-import { AwsUtils, Reducer, Debug } from "../../src/helpers";
+import { AwsUtils, Reducer, Debug, LOG } from "../../src/helpers";
 import ProgressiveImage from "../../src/components/ProgressiveImage";
 
 import { withAuthenticator } from "aws-amplify-react-native";
@@ -53,7 +53,7 @@ function UserScreenStack({ navigation }) {
 
       dispatch({ type: "SET_USERS", users });
     } catch (err) {
-      console.log("error: ", err);
+      LOG.error("error: ", err);
     }
   }
 
@@ -77,7 +77,7 @@ function UserScreenStack({ navigation }) {
         AwsUtils.LEVEL_PROTECTED,
         AwsUtils.MIN_EXPIRES
       );
-      console.log(uri);
+      LOG.info("Item:", uri);
     }
 
     return (

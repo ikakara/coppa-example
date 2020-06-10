@@ -1,5 +1,7 @@
 import { Storage } from "aws-amplify";
 
+import { LOG } from "../helpers";
+
 const LEVEL_PRIVATE = "private";
 const LEVEL_PROTECTED = "protected";
 const LEVEL_PUBLIC = "public";
@@ -40,7 +42,7 @@ async function presignedUriForDownload(key, level, expires) {
       track: true, // tracked by pinpoint
     });
   } catch (err) {
-    console.log("error: ", err);
+    LOG.error("error: ", err);
   }
   return presignedUri;
 }
@@ -58,13 +60,13 @@ async function uploadImage(key, file, mimeType, level) {
       track: true, // tracked by pinpoint
       //ContentEncoding : "base64",
       progressCallback(progress) {
-        console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
+        LOG.info("Progress: ", `Uploaded: ${progress.loaded}/${progress.total}`);
       },
     });
 
     return true;
   } catch (err) {
-    console.log("error: ", err);
+    LOG.error("error: ", err);
   }
   return false;
 }

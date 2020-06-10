@@ -14,7 +14,7 @@ import { createUser, updateUser } from "../../src/graphql/mutations";
 
 import { withAuthenticator } from "aws-amplify-react-native";
 
-import { ImageUtils, Auth, AwsUtils, Debug } from "../../src/helpers";
+import { ImageUtils, Auth, AwsUtils, Debug, LOG } from "../../src/helpers";
 import config from "../../aws-exports";
 
 const {
@@ -54,7 +54,7 @@ function UserScreenModal({ navigation, route }) {
       let owner = Auth.username();
       const user = Auth.userInfo();
       if (user && user.owner) {
-        console.log(user);
+        LOG.info("saveUser:", user);
         createOrUpdate = updateUser;
       }
 
@@ -72,9 +72,9 @@ function UserScreenModal({ navigation, route }) {
           graphqlOperation(createOrUpdate, { input: inputData })
         );
         //updateDisplayName("");
-        console.log("successfully stored user data!");
+        LOG.info("successfully stored user data!", inputData);
       } catch (err) {
-        console.log("error: ", err);
+        LOG.error("error: ", err);
       }
 
       navigation.goBack();

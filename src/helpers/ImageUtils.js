@@ -2,7 +2,8 @@ import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as ImageUtils from "expo-image-picker";
 import * as ImageManipulator from "expo-image-manipulator";
-import { Debug } from "../helpers";
+
+import { Debug, LOG } from "../helpers";
 
 //
 // from: https://github.com/expo/image-upload-example/blob/master/frontend/App.js#L109
@@ -22,7 +23,7 @@ function uriFormData(uri) {
     });
   }
 
-  console.log(formData);
+  LOG.info("uriFormData:", formData);
 
   return formData;
 }
@@ -66,7 +67,7 @@ async function pickImage() {
 
   if (pickerResult && !pickerResult.cancelled) {
     //let formData = uriFormData(pickerResult.uri);
-    console.log(pickerResult);
+    LOG.info("pickImage:", pickerResult);
     return pickerResult.uri;
   }
 
@@ -99,7 +100,7 @@ async function takePhoto() {
 
   if (pickerResult && !pickerResult.cancelled) {
     //let formData = uriFormData(pickerResult.uri);
-    console.log(pickerResult);
+    LOG.info("takePhoto:", pickerResult);
     return pickerResult.uri;
   }
 

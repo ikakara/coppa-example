@@ -7,4 +7,4 @@ const Visibility = {
 };
 Object.freeze(Visibility);
 
-export { Visibility, }
+export { Visibility };

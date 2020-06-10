@@ -8,7 +8,7 @@ import { listTodos } from "../../src/graphql/queries";
 import { createTodo } from "../../src/graphql/mutations";
 import { onCreateTodo } from "../../src/graphql/subscriptions";
 
-import { Debug, Reducer } from "../../src/helpers";
+import { Debug, Reducer, LOG } from "../../src/helpers";
 
 const initialState = {
   todos: [],
@@ -48,7 +48,7 @@ export default function TodoScreenStack({ navigation }) {
       dispatch({ type: "SET_TODOS", todos });
       //setTodos(todos);
     } catch (err) {
-      console.log("error: ", err);
+      LOG.error("error: ", err);
     }
   }
 
@@ -61,10 +61,10 @@ export default function TodoScreenStack({ navigation }) {
         );
       const todo = { ...formState };
       //dispatch({ type: "ADD_TODO", todo });
-      console.log(state.todos);
+      LOG.info("addTodo:", state.todos);
       await API.graphql(graphqlOperation(createTodo, { input: todo }));
     } catch (err) {
-      console.log("error: ", err);
+      LOG.error("error: ", err);
     }
   }
 

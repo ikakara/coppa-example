@@ -1,10 +1,10 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import * as React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Button } from "react-native";
 
 import TabBarIcon from "../components/TabBarIcon";
 import { HomeScreen, LinksScreen, TemplateScreen } from "../screens";
-import { Debug } from "../helpers"
+import { Debug, Auth } from "../helpers";
 
 import Amplify from "@aws-amplify/core";
 import config from "../../aws-exports";
@@ -12,21 +12,33 @@ Amplify.configure(config);
 
 import {
   withAuthenticator,
-  AmplifyAuthenticator,
-  AmplifySignOut,
+  SignOut,
+  Authenticator,
 } from "aws-amplify-react-native";
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = "Home";
 
-function getRightHeader(route) {
-  const routeName =
-    route.state?.routes[route.state.index]?.name ?? INITIAL_ROUTE_NAME;
+const AlwaysOn = (props) => {
+  return (
+    <Authenticator hideDefault={true}>
+      <View>
+        <Text>sfaf</Text>
+       {/* <Button
+          title={Auth.username() | "Sign In"}
+          onPress={() => props.onStateChange("signUp")}
+        />*/}
+      </View>
+    </Authenticator>
+  );
+};
 
+function getRightHeader(routeName) {
   switch (routeName) {
     case "Home":
       return (
         <View>
+          {/*<AlwaysOn />*/}
           <Text>Home</Text>
         </View>
       );
@@ -45,10 +57,7 @@ function getRightHeader(route) {
   }
 }
 
-function getHeaderTitle(route) {
-  const routeName =
-    route.state?.routes[route.state.index]?.name ?? INITIAL_ROUTE_NAME;
-
+function getHeaderTitle(routeName) {
   switch (routeName) {
     case "Home":
       return "Home";
@@ -60,12 +69,15 @@ function getHeaderTitle(route) {
 }
 
 function BottomTabNavigator({ navigation, route }) {
+  const routeName =
+    route.state?.routes[route.state.index]?.name ?? INITIAL_ROUTE_NAME;
+
   // Set the header title on the parent stack navigator depending on the
   // currently active tab. Learn more in the documentation:
   // https://reactnavigation.org/docs/en/screen-options-resolution.html
   navigation.setOptions({
-    headerTitle: getHeaderTitle(route),
-    headerRight: (props) => getRightHeader(route),
+    headerTitle: getHeaderTitle(routeName),
+    headerRight: (props) => getRightHeader(routeName),
     headerRightContainerStyle: {
       paddingRight: 16,
     },

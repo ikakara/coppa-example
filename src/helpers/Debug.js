@@ -1,5 +1,7 @@
 import { Alert, Platform } from "react-native";
 
+import { LOG } from "../helpers";
+
 // web workaround: https://github.com/necolas/react-native-web#modules
 function _alert(msg, desc) {
   if (Platform.OS === "web") {
@@ -21,36 +23,36 @@ function serious(msg, promise) {
 // these functions are pass by reference
 function error(msg, promise) {
   if (promise instanceof Promise) {
-    promise.then((val) => console.error(msg + val));
+    promise.then((val) => LOG.error(msg, val));
   } else {
-    console.error(msg + promise);
+    LOG.error(msg, promise);
   }
 }
 
 // these functions are pass by reference
 function warn(msg, promise) {
   if (promise instanceof Promise) {
-    promise.then((val) => console.warn(msg + val));
+    promise.then((val) => LOG.warn(msg, val));
   } else {
-    console.warn(msg + promise);
+    LOG.warn(msg, promise);
   }
 }
 
 // these functions are pass by reference
-function log(msg, promise) {
+function info(msg, promise) {
   if (promise instanceof Promise) {
-    promise.then((val) => console.log(msg + val));
+    promise.then((val) => LOG.info(msg, val));
   } else {
-    console.log(msg + promise);
+    LOG.info(msg, promise);
   }
 }
 
 // these functions are pass by reference
 function debug(msg, promise) {
   if (promise instanceof Promise) {
-    promise.then((val) => console.debug(msg + val));
+    promise.then((val) => LOG.debug(msg, val));
   } else {
-    console.debug(msg + promise);
+    LOG.debug(msg, promise);
   }
 }
 
@@ -186,7 +188,7 @@ export {
   serious,
   error,
   warn,
-  log,
+  info,
   debug,
   REPORT_SERIOUS,
   REPORT_ERROR,

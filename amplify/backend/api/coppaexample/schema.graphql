@@ -107,3 +107,12 @@ input CreateTodoInput {
   name: String!
   description: String
 }
+
+# This is needed to override the auto-generated UpdateTodoInput ()
+input UpdateTodoInput {
+  id: ID!
+  visibility: Visibility
+  name: String
+  description: String
+  editors: [String]
+}

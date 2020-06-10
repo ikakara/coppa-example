@@ -60,3 +60,31 @@ The main disadvantage to AWS Services are the costs.  DynamoDB (or DocumentDB) c
 * amplify push (to create your own back-end resources)
 * npm install (to install the node modules locally)
 * expo start -w (to run the application)
+
+# 2 Designs in App.js
+
+```
+export default function App(props) {
+  const isLoadingComplete = useCachedResources();
+
+  if (!isLoadingComplete) {
+    return null;
+  } else {
+    return (
+      <View style={styles.container}>
+        {Platform.OS === "ios" && <StatusBar barStyle="dark-content" />}
+        <BottomTabNavigationContainer {...props} />
+        {/*<DefaultNavigator {...props} />*/}
+      </View>
+    );
+  }
+}
+
+```
+
+**To use the DefaultNavigator (design)**
+
+```
+        {/*<BottomTabNavigationContainer {...props} />*/}
+        <DefaultNavigator {...props} />
+```

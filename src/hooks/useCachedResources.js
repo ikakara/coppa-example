@@ -3,10 +3,21 @@ import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import * as React from "react";
 
-import { Auth } from "aws-amplify";
+import Amplify, { Analytics, Hub } from "aws-amplify";
+
+import { LOG, Auth } from "../helpers";
 
 export default function useCachedResources() {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
+
+  // https://docs.amplify.aws/lib/utilities/logger/q/platform/js
+  Amplify.Logger.LOG_LEVEL = "INFO";
+
+  // https://aws-amplify.github.io/amplify-js/api/classes/analyticsclass.html#record
+  Analytics.disable(); // Analytics.enable();
+
+  // https://docs.amplify.aws/lib/utilities/hub/q/platform/js
+  Hub.listen("auth", Auth.listener);
 
   // Load any resources or data that we need prior to rendering the app
   React.useEffect(() => {
@@ -14,9 +25,8 @@ export default function useCachedResources() {
       try {
         SplashScreen.preventAutoHideAsync();
 
-        await Auth.currentCredentials()
-          .then((d) => console.log("data: ", d))
-          .catch((e) => console.log("error: ", e));
+        const credentials = await Auth.currentCredentials();
+        LOG.info("useCachedResources Auth:", credentials);
 
         // Load fonts
         await Font.loadAsync({
@@ -25,7 +35,7 @@ export default function useCachedResources() {
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service
-        console.warn("warn: ", e);
+        LOG.warn("warn: ", e);
       } finally {
         setLoadingComplete(true);
         SplashScreen.hideAsync();
