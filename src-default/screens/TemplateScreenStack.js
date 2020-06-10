@@ -9,7 +9,7 @@ import { withAuthenticator } from "aws-amplify-react-native";
 
 function TemplateScreenStack({ navigation }) {
   React.useLayoutEffect(() => {
-    navigation.setOptions({
+    navigation?.setOptions({
       headerRight: () => (
         <View style={{ flexDirection: "row" }}>
           <Button

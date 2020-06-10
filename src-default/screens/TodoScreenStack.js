@@ -1,13 +1,13 @@
 import React, { useReducer, useEffect } from "react";
-import { Button, View, Text, StyleSheet, FlatList } from "react-native";
-
-import { ScrollView } from "react-native-gesture-handler";
+import { Button, View, Text } from "react-native";
 
 import { API, graphqlOperation } from "aws-amplify";
-import { listTodos } from "../../src/graphql/queries";
+
 import { createTodo } from "../../src/graphql/mutations";
 import { onCreateTodo } from "../../src/graphql/subscriptions";
 
+import TodoList from "../../src/components/TodoList";
+import { TodoModel } from "../../src/models";
 import { Debug, Reducer, LOG } from "../../src/helpers";
 
 const initialState = {
@@ -18,7 +18,7 @@ export default function TodoScreenStack({ navigation }) {
   const [state, dispatch] = useReducer(Reducer.forTodos, initialState);
 
   React.useLayoutEffect(() => {
-    navigation.setOptions({
+    navigation?.setOptions({
       headerRight: () => (
         <View style={{ flexDirection: "row" }}>
           <Button
@@ -40,13 +40,11 @@ export default function TodoScreenStack({ navigation }) {
 
   async function fetchTodos() {
     try {
-      const todoData = await API.graphql(graphqlOperation(listTodos));
-      const todos = todoData.data.listTodos.items;
+      const todos = await TodoModel.queryListTodos();
 
       Debug.reportTodo(Debug.REPORT_SERIOUS, todos);
 
       dispatch({ type: "SET_TODOS", todos });
-      //setTodos(todos);
     } catch (err) {
       LOG.error("error: ", err);
     }
@@ -79,39 +77,8 @@ export default function TodoScreenStack({ navigation }) {
     return () => subscription.unsubscribe();
   }, []);
 
-  function Item({ name, description, visibility, creator }) {
-    return (
-      <View style={styles.item}>
-        <Text style={styles.title}>{name}</Text>
-        <Text style={styles.description}>{description}</Text>
-        <Text style={styles.visibility}>{visibility}</Text>
-        <Text style={styles.creator}>created by {creator.displayName}</Text>
-      </View>
-    );
-  }
-
   if (state.todos.length > 0) {
-    return (
-      <View style={styles.container}>
-        <ScrollView
-          style={styles.container}
-          contentContainerStyle={styles.contentContainer}
-        >
-          <FlatList
-            data={state.todos}
-            renderItem={({ item }) => (
-              <Item
-                name={item.name}
-                description={item.description}
-                visibility={item.visibility}
-                creator={item.creator}
-              />
-            )}
-            keyExtractor={(item) => item.id}
-          />
-        </ScrollView>
-      </View>
-    );
+    return <TodoList todos={state.todos} />;
   } else {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -129,24 +96,3 @@ export default function TodoScreenStack({ navigation }) {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-  contentContainer: {
-    paddingTop: 0,
-  },
-  item: {
-    backgroundColor: "#f9c2ff",
-    padding: 20,
-    marginVertical: 1,
-  },
-  title: {
-    fontSize: 24,
-  },
-  description: {
-    fontSize: 12,
-  },
-});

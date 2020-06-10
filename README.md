@@ -61,6 +61,10 @@ The main disadvantage to AWS Services are the costs.  DynamoDB (or DocumentDB) c
 * npm install (to install the node modules locally)
 * expo start -w (to run the application)
 
+# Federated signins
+
+<https://github.com/aws-amplify/amplify-js/issues/4244>
+
 # 2 Designs in App.js
 
 ```
