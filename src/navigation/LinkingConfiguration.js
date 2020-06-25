@@ -3,33 +3,51 @@ import * as Linking from "expo-linking";
 export default {
   prefixes: [Linking.makeUrl("/")],
   config: {
-    Root: {
-      // used by tab navigation
-      path: "root",
+    // Routes.DRAWERDASHBOARD
+    DrawerDashboard: {
+      // pruning length of path
+      path: "/",
       screens: {
-        Home: "home",
-        Links: "links",
-        //Template: "template",
-        User: "user",
-        ModalUser: "modal-user",
-        ModalTemplate: "modal-template",
-        ModalTodo: "modal-todo",
+        Dashboard: {
+          path: "/dashboard",
+          screens: {
+            TabFeed: {
+              // pruning length of path
+              path: "/",
+              screens: {
+                Feed: "feed",
+                Detail: "detail",
+              },
+            },
+            TabProfile: {
+              // pruning length of path
+              path: "/",
+              screens: {
+                Profile: "profile",
+              },
+            },
+            TabSettings: {
+              // pruning length of path
+              path: "/",
+              screens: {
+                Settings: "settings",
+              },
+            },
+          },
+        },
       },
     },
-    Public: {
-      // used by tab navigation
-      path: "pubic",
+    // Routes.DRAWERWELCOME
+    DrawerWelcome: {
+      // pruning length of path
+      path: "/",
       screens: {
-        Public: "public",
-        Template: "template",
+        Welcome: "welcome",
+        Signup: "signup",
       },
     },
-    // Public
-    Public: "public",
-    Template: "template",
-    // Modal screens that are protected
-    ModalUser: "modal-user",
     ModalTemplate: "modal-template",
-    ModalTodo: "modal-todo",
+    // Routes.DRAWERNOTFOUND
+    NotFound: "*",
   },
 };

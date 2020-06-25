@@ -6,10 +6,6 @@ import TabBarIcon from "../components/TabBarIcon";
 import { HomeScreen, LinksScreen, TemplateScreen } from "../screens";
 import { Debug, Auth } from "../helpers";
 
-import Amplify from "@aws-amplify/core";
-import config from "../../aws-exports";
-Amplify.configure(config);
-
 import {
   withAuthenticator,
   SignOut,

@@ -1,10 +1,6 @@
 import * as React from "react";
 import { Button, View, Text } from "react-native";
 
-import Amplify from "@aws-amplify/core";
-import config from "../../aws-exports";
-Amplify.configure(config);
-
 import { withAuthenticator } from "aws-amplify-react-native";
 
 function TemplateScreenStack({ navigation }) {

@@ -1,4 +1,5 @@
 import {
+  API,
   Auth,
   Analytics,
   graphqlOperation,
@@ -72,13 +73,13 @@ async function username() {
 
 // this state isn't currently listened for, so must make a new request
 async function userInfo() {
-  const username = username();
+  const _username = username();
 
-  if (username == undefined) {
+  if (_username == undefined) {
     return undefined;
   }
 
-  await API.graphql(graphqlOperation(getUser, { input: { username } }))
+  await API.graphql(graphqlOperation(getUser, { input: { _username } }))
     .then((info) => {
       return info;
     })
